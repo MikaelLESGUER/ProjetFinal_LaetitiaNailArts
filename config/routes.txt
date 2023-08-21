@@ -1,0 +1,17 @@
+La route pour afficher la liste des catégories :  
+  
+/  
+  
+La route pour afficher les produits d'une catégorie :  
+  
+/categories/:slug-categorie  
+  
+  
+La route pour afficher la liste des produits :  
+  
+/produits  
+  
+  
+La route pour afficher le détail d'un produit :  
+  
+/produits/:slug-produit
