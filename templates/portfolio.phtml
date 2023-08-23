@@ -1,0 +1,14 @@
+<section class="portfolio">
+    <?php //var_dump($data);?>
+    
+    <h2>Portfolio</h2>
+    <?php foreach ($data["items"] as $item) : ?>
+        <!-- Afficher chaque élément du portfolio ici -->
+        <div class="portfolio-item">
+            <h3><?= $item['title'] ?></h3>
+            <img src="<?= $item['image'] ?>" alt="<?= $item['title'] ?>">
+            <p><?= $item['description'] ?></p>
+            <a href="<?= $item['link'] ?>" class="btn">Voir le projet</a>
+        </div>
+    <?php endforeach; ?>
+</section>

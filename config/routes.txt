@@ -1,17 +1,60 @@
-La route pour afficher la liste des catégories :  
+La route pour afficher la page principal :  
   
 /  
   
-La route pour afficher les produits d'une catégorie :  
+La route pour afficher les prestations :  
   
-/categories/:slug-categorie  
+/prestations
+
+La route pour afficher le détails d'une prestation :
+
+/prestations/:id
+
+La route pour afficher le portfolio :
+
+/portfolio
   
-  
-La route pour afficher la liste des produits :  
-  
-/produits  
-  
-  
-La route pour afficher le détail d'un produit :  
-  
-/produits/:slug-produit
+La route pour afficher les commentaires :
+/commentaires
+
+La route pour afficher une réservation :
+/reservation
+
+La route pour afficher la page de contact :
+/contact
+
+La route pour afficher la page d'inscription :
+/inscription
+
+La route pour afficher la page de connexion :
+/connexion
+
+La route pour afficher la page du profil de l'utilisateur :
+/profil
+
+La route pour afficher la page du tableau de bord pour un Admin: 
+/admin/dashboard
+
+La route pour afficher la page de gestion des prestations :
+/admin/gestion-prestations
+
+La route pour afficher la page pour ajouter une prestation :
+/admin/gestion-prestations/ajouter
+
+La route pour afficher la page pour modifier une prestation :
+/admin/gestion-prestations/:id/modifier
+
+La route pour afficher la page pour la gestion des réalisations :
+/admin/gestion-realisations
+
+La route pour afficher la page ajouter une réalisation :
+/admin/gestion-realisations/ajouter
+
+La route pour afficher la page pour la gestion des commentaires :/
+admin/gestion-commentaires
+
+La route pour afficher la page pour la gestion des rendez-vous :
+/admin/gestion-rendez-vous
+
+La route pour afficher la page répondre aux messages :
+/admin/repondre-messages

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= $data['title'] ?></title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <header>
+        <!-- Insérer le contenu de l'en-tête ici -->
+        <nav>
+            <ul>
+                <li><a href="/ProjetFinal_LaetitiaNailArts/">Accueil</a></li>
+                <li><a href="/prestations">Prestations</a></li>
+                <li><a href="/ProjetFinal_LaetitiaNailArts/portfolio">Portfolio</a></li>
+                <!-- Ajouter les autres liens de navigation ici -->
+            </ul>
+        </nav>
+    </header>
+    
+    <?php require "templates/{$page}.phtml"; ?>
+    
+    <footer>
+        <!-- Insérer le contenu du pied de page ici -->
+        <!--<p>&copy; <?= date('Y') ?> Votre entreprise. Tous droits réservés.</p>-->
+    </footer>
+    
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

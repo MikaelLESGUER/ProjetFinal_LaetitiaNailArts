@@ -1,0 +1,6 @@
+<h2>Portfolio</h2>
+<ul>
+    <?php foreach ($portfolioItems as $item): ?>
+        <li><a href="/portfolio/<?= $item->getId() ?>"><?= $item->getTitle() ?></a></li>
+    <?php endforeach; ?>
+</ul>
