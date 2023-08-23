@@ -13,6 +13,9 @@ La route pour afficher le détails d'une prestation :
 La route pour afficher le portfolio :
 
 /portfolio
+
+La route pour afficher une photo du portfolio :
+/portfolio/:id
   
 La route pour afficher les commentaires :
 /commentaires

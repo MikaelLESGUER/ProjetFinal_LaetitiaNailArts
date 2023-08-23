@@ -14,6 +14,8 @@ class Router {
     private function splitRouteAndParameters(string $route) : array  
     {  
         $routeAndParams = [];
+        $routeAndParams["route"] = null;  
+        $routeAndParams["portfolioItem"] = null;  
       
         if(strlen($route) > 0) // si la chaine de la route n'est pas vide (donc si ça n'est pas la home)
         {  
@@ -44,6 +46,8 @@ class Router {
         }
         elseif ($routeTab["route"] === "portfolio/:id")  // Si la route est "/portfolio/:id"
         {
+            var_dump($itemId);
+            die;
             // Obtenez l'ID à partir des paramètres et appelez la méthode correspondante
             $itemId = (int) $routeTab["params"]["id"];
             $this->portfolioController->showPortfolioItemDetails($itemId);
