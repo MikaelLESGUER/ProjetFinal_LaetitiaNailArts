@@ -2,42 +2,46 @@
 
 class User {
     private ?int $userId;
-    private string $username;
+    private ?string $username;
     private ?string $prenom;
     private ?string $nom;
     private ?string $email;
-    private ?string $numeroPortable;
     private ?string $password;
-    private DateTime $dateCreation;
-    private ?DateTime $derniereConnexion;
-    private int $roleId;
+    private ?int $roleId;
+//    private ?string $numeroPortable;
+//    private DateTime $dateCreation;
+//    private ?DateTime $derniereConnexion;
+
 
     public function __construct(
         ?int $userId,
-        string $username,
+        ?string $username,
         ?string $prenom,
         ?string $nom,
         ?string $email,
-        ?string $numeroPortable,
         ?string $password,
-        DateTime $dateCreation,
-        ?DateTime $derniereConnexion,
-        int $roleId
-    ) {
+        ?int $roleId
+//        ?string $numeroPortable,
+//        DateTime $dateCreation,
+//        ?DateTime $derniereConnexion,
+
+    )
+    {
         $this->userId = $userId;
         $this->username = $username;
         $this->prenom = $prenom;
         $this->nom = $nom;
         $this->email = $email;
-        $this->numeroPortable = $numeroPortable;
         $this->password = $password;
-        $this->dateCreation = $dateCreation;
-        $this->derniereConnexion = $derniereConnexion;
         $this->roleId = $roleId;
+//        $this->numeroPortable = $numeroPortable;
+//        $this->dateCreation = $dateCreation;
+//        $this->derniereConnexion = $derniereConnexion;
+
     }
 
     // Getters
-    public function getUserId(): ?int {
+    public function getId(): ?int {
         return $this->userId;
     }
 
@@ -73,12 +77,16 @@ class User {
         return $this->derniereConnexion;
     }
 
-    public function getRoleId(): int {
+    /**
+     * @return int|null
+     */
+    public function getRoleId(): ?int
+    {
         return $this->roleId;
     }
 
     // Setters
-    public function setUserId(?int $userId): void {
+    public function setId(?int $userId): void {
         $this->userId = $userId;
     }
 
@@ -110,7 +118,7 @@ class User {
         $this->derniereConnexion = $derniereConnexion;
     }
 
-    public function setRoleId(int $roleId): void {
+    public function setRoleId(?int $roleId): void {
         $this->roleId = $roleId;
     }
 }

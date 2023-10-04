@@ -1,29 +1,26 @@
 <?php
 
-class Role {
-    private int $roleId;
-    private string $roleName;
+class Role
+{
+    private $id;
+    private $description;
 
-    public function __construct(int $roleId, string $roleName) {
-        $this->roleId = $roleId;
-        $this->roleName = $roleName;
+    // Constructeur
+    public function __construct($id, $description) {
+        $this->id = $id;
+        $this->description = $description;
     }
 
-    // Getters
-    public function getRoleId(): int {
-        return $this->roleId;
+    // Getters et setters
+    public function getId() {
+        return $this->id;
     }
 
-    public function getRoleName(): string {
-        return $this->roleName;
+    public function getDescription() {
+        return $this->description;
     }
 
-    // Setters
-    public function setRoleId(int $roleId): void {
-        $this->roleId = $roleId;
-    }
-
-    public function setRoleName(string $roleName): void {
-        $this->roleName = $roleName;
+    public function setDescription($description) {
+        $this->description = $description;
     }
 }
