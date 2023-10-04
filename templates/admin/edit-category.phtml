@@ -1,0 +1,24 @@
+<!-- edit-category.phtml -->
+<main class="container">
+    <h2 class="text-center mb-4">Modifier la Catégorie</h2>
+    <form action="/ProjetFinal_LaetitiaNailArts2/admin/update-category" method="POST">
+        <input type="hidden" name="category_id" value="<?= $data['category']->getId(); ?>">
+        <!-- Champ de nom de la catégorie -->
+        <div class="mb-3">
+            <label for="category-name" class="form-label">Nom de la Catégorie</label>
+            <input type="text" class="form-control" id="category-name" name="category-name" value="<?= $data['category']->getName(); ?>" required>
+        </div>
+        <!-- Champ de slug de la catégorie -->
+        <div class="mb-3">
+            <label for="category-slug" class="form-label">Slug de la catégorie</label>
+            <input type="text" class="form-control" id="category-slug" name="category-slug" value="<?= $data['category']->getSlug(); ?>" required>
+        </div>
+        <!-- Champ de description de la catégorie -->
+        <div class="mb-3">
+            <label for="category-description" class="form-label">Description de la Catégorie</label>
+            <textarea class="form-control" id="category-description" name="category-description" required><?= $data['category']->getDescription(); ?></textarea>
+        </div>
+        <!-- Bouton de soumission du formulaire -->
+        <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+    </form>
+</main>

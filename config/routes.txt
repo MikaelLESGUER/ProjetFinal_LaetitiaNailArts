@@ -1,63 +1,135 @@
-La route pour afficher la page principal :  
-  
-/  
-  
-La route pour afficher les prestations :  
-  
+La route pour afficher la homePage :
+
+/
+
+La route pour afficher les prestations :
+
 /prestations
 
-La route pour afficher le détails d'une prestation :
+La route pour afficher le détail d'un produit :
 
-/prestations/:id
+/prestations/:prestationSlug
 
-La route pour afficher le portfolio :
+La route qui affiche le formulaire d'inscription
 
-/portfolio
+/creer-un-compte
 
-La route pour afficher une photo du portfolio :
-/portfolio/:id
-  
-La route pour afficher les commentaires :
-/commentaires
+La route pour l'utilisateur modifie email
 
-La route pour afficher une réservation :
-/reservation
+/modifier-email
 
-La route pour afficher la page de contact :
-/contact
+La route pour l'utilisateur modifie son username
 
-La route pour afficher la page d'inscription :
-/inscription
+/modifier-username
 
-La route pour afficher la page de connexion :
+la route pour l'utilisateur modifie son mot de passe
+
+/modifier-password
+
+La route qui créé un utilisateur (l'action du formulaire d'inscription)
+
+/check-creer-un-compte
+
+La route qui affiche le formulaire de connexion
+
 /connexion
 
-La route pour afficher la page du profil de l'utilisateur :
-/profil
+La route qui vérifie la connexion (l'action du formulaire de connexion)
 
-La route pour afficher la page du tableau de bord pour un Admin: 
+/check-connexion
+
+La route pour le compte utilisateur
+
+/mon-compte
+
+La route pour se logger en admin
+
+/admin
+
+La route pour se logger en Admin
+
+/admin-connexion
+
+La route qui vérifie la connexion (l'action du formulaire de connexion)
+
+/check-admin-connexion
+
+La route qui affiche le formulaire d'inscription
+
+/creer-un-compte-admin
+
+La route pour le dashboard
+
 /admin/dashboard
 
-La route pour afficher la page de gestion des prestations :
-/admin/gestion-prestations
+La route pour gerer les admins
 
-La route pour afficher la page pour ajouter une prestation :
-/admin/gestion-prestations/ajouter
+/gerer-admin
 
-La route pour afficher la page pour modifier une prestation :
-/admin/gestion-prestations/:id/modifier
+La route qui créé un admin
 
-La route pour afficher la page pour la gestion des réalisations :
-/admin/gestion-realisations
+/admin/create-admin
 
-La route pour afficher la page ajouter une réalisation :
-/admin/gestion-realisations/ajouter
+La route pour modifier un produit
 
-La route pour afficher la page pour la gestion des commentaires :/
-admin/gestion-commentaires
+/admin/update-admin?id=
 
-La route pour afficher la page pour la gestion des rendez-vous :
-/admin/gestion-rendez-vous
+La route qui modifié un admin
 
-La route pour afficher la page répondre aux messages :
-/admin/repondre-messages
+/admin/modify-admin
+
+la route pour supprimer un admin
+
+/admin/delete-admin
+
+La route pour gerer les utilisateurs
+
+/gerer-utilisateurs
+
+La route pour supprimer un utilisateur
+
+/delete-user
+
+La route pour gerer les produits
+
+/gerer-prestations
+
+La route pour modifier un produit
+
+/update-prestation:&id=
+
+La route pour modifier un produit
+
+/check-update-prestation
+
+La route pour créer un nouveau produit
+
+/check-create-prestation
+
+la route pour supprimer un produit
+
+/delete-product
+
+La route pour gerer les catégories des produits
+
+/list-categories
+
+La route pour modifier les catégories des produits
+
+/edit-category:&id=
+
+La route pour soumettre les modifification d'une catégorie
+
+/update-category
+
+La route pour créer une nouvelle catégorie
+
+/create-category
+
+La route pour créer une nouvelle catégorie
+
+/delete-category
+
+La route pour se deconnecter
+
+/deconnexion

@@ -1,0 +1,29 @@
+<main class="container py-5">
+    <!-- Boutons pour filtrer les catégories -->
+    <div class="mb-4">
+        <?php foreach ($data["prestationsByCategory"] as $categoryName => $prestations): ?>
+            <a href="#<?php echo $categoryName; ?>" class="btn btn-secondary"><?php echo $categoryName; ?></a>
+        <?php endforeach; ?>
+    </div>
+
+    <?php foreach ($data["prestationsByCategory"] as $categoryName => $prestations): ?>
+        <h2 id="<?php echo $categoryName; ?>">Catégorie : <?php echo $categoryName; ?></h2>
+        <section class="row">
+            <?php foreach ($prestations as $prestation): ?>
+                <article class="col-12 mb-4">
+                    <div class="card p-5">
+                        <header>
+                            <h3 class="card-title"><?php echo $prestation->getName(); ?></h3>
+                        </header>
+                        <p class="card-text">
+                            <?php echo $prestation->getDescription(); ?>
+                        </p>
+                        <footer>
+                            <a href="/ProjetFinal_LaetitiaNailArts/prestations/<?php echo $prestation->getSlug(); ?>" class="btn btn-success">en savoir plus</a>
+                        </footer>
+                    </div>
+                </article>
+            <?php endforeach; ?>
+        </section>
+    <?php endforeach; ?>
+</main>

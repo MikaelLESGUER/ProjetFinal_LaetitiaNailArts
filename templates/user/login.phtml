@@ -1,0 +1,39 @@
+<main class="container py-5">
+    <h2 class="mb-5">Connexion</h2>
+    <?php
+    // Vérifiez s'il y a un message d'erreur
+    if (isset($_SESSION['error_message'])) {
+        echo '<div class="alert alert-danger">' . $_SESSION['error_message'] . '</div>';
+        unset($_SESSION['error_message']); // Effacez le message pour éviter qu'il ne s'affiche à nouveau après un rechargement de la page
+    }
+
+    // Vérifiez s'il y a un message de succès
+    if (isset($_SESSION['success_message'])) {
+        echo '<div class="alert alert-success">' . $_SESSION['success_message'] . '</div>';
+        unset($_SESSION['success_message']); // Effacez le message pour éviter qu'il ne s'affiche à nouveau après un rechargement de la page
+    }
+    ?>
+<!--    --><?php
+//    if (isset($_SESSION["error_message"])) {
+//        echo '<div class="alert alert-danger">' . $_SESSION["error_message"] . '</div>';
+//        unset($_SESSION["error_message"]); // Effacer le message après l'avoir affiché
+//    }
+//    ?>
+
+    <form method="post" action="/ProjetFinal_LaetitiaNailArts/check-connexion" class="col-4">
+        <input type="hidden" name="formLogin" id="formLogin" value="loginForm" />
+        <fieldset class="mb-3">
+            <label for="email" class="form-label">
+                Email
+            </label>
+            <input type="email" name="email" id="email" class="form-control" required />
+        </fieldset>
+        <fieldset class="mb-5">
+            <label for="password" class="form-label">
+                Mot de passe
+            </label>
+            <input type="password" name="password" id="password" class="form-control" required />
+        </fieldset>
+        <button type="submit" class="btn btn-primary">Se Connecter</button>
+    </form>
+</main>

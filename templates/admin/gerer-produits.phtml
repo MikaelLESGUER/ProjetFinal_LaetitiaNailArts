@@ -1,0 +1,162 @@
+<!-- gerer-produits.phtml -->
+
+<main class="container">
+
+    <h2 class="text-center p-4 mb-4">Gestion des produits</h2>
+
+    <!-- Ajoutez un code PHP pour vérifier les paramètres d'URL et afficher les messages -->
+    <?php
+    // Vérifiez s'il y a un message d'erreur
+    if (isset($_SESSION['error_message'])) {
+        echo '<div class="alert alert-danger">' . $_SESSION['error_message'] . '</div>';
+        unset($_SESSION['error_message']); // Effacez le message pour éviter qu'il ne s'affiche à nouveau après un rechargement de la page
+    }
+
+    // Vérifiez s'il y a un message de succès
+    if (isset($_SESSION['success_message'])) {
+        echo '<div class="alert alert-success">' . $_SESSION['success_message'] . '</div>';
+        unset($_SESSION['success_message']); // Effacez le message pour éviter qu'il ne s'affiche à nouveau après un rechargement de la page
+    }
+    ?>
+    <section class="text-center">
+        <h3 class="text-center p-2 mb-4" style="border: 1px solid #000; text-decoration: underline;"> Créer un nouveau produit</h3>
+
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createProductModal">
+            Créer un nouveau produit
+        </button>
+    </section>
+
+    <button id="scrollToTopBtn" class="btn btn-primary scrollToTopBtn" style="display: none;position: fixed; bottom: 20px; right: 20px">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+
+    <!-- Aficher la liste des produits -->
+    <section id="product-list-section" class="border-right border-1 p-4">
+        <h3 class="text-center mb-4">Liste des produits</h3>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+
+                    <th class="text-center col-md-1">NOM</th>
+                    <th class="text-center col-md-2">SLUG</th>
+                    <th class="text-center col-md-2">CATÉGORIES</th>
+                    <th class="text-center col-md-2">DESCRIPTION</th>
+                    <th class="text-center col-md-2">PRIX</th>
+                    <th class="text-center col-md-2">DURÉE</th>
+                    <th class="text-center col-md-1">ACTIONS</th>
+                    <th class="text-center col-md-1">Supprimer</th>
+
+                    <!--                    <th class="col-md-3">PASSWORD</th>-->
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($data["prestations"] as $prestation): ?>
+                    <tr>
+                        <td class="text-center col-md-2"><?= $prestation->getName(); ?></td>
+                        <td class="text-center col-md-3"><?= $prestation->getSlug(); ?></td>
+                        <td class="text-center col-md-2"><?= implode(', ', $prestation->getCategories()); ?></td>
+                        <td class="text-center col-md-4"><?= $prestation->getDescription(); ?></td>
+                        <td class="text-center col-md-3"><?= $prestation->getPrice(); ?></td>
+                        <td class="text-center col-md-4"><?= $prestation->getDuration(); ?></td>
+                        <td class="text-center col-md-1">
+                            <!-- Ajoutez le bouton "Modifier" avec un lien vers la page de modification -->
+                            <a href="/ProjetFinal_LaetitiaNailArts/admin/update-prestation?id=<?= $prestation->getId(); ?>" class="btn btn-primary">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                        </td>
+                        <td class="text-center col-md-1">
+                            <!-- Utilisez une balise <a> pour envelopper l'icône de suppression -->
+                            <a class="btn btn-danger delete-product-btn" data-product-id="<?= $prestation->getId(); ?>">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+
+                            <!-- Formulaire de confirmation caché -->
+                            <form class="delete-product-form" method="POST" action="/ProjetFinal_LaetitiaNailArts/admin/delete-product">
+                                <input type="hidden" name="product_id" value="<?= $prestation->getId(); ?>">
+                                <div class="modal fade" id="confirmDeleteModal<?= $prestation->getId(); ?>" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmation de suppression</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Êtes-vous sûr de vouloir supprimer ce produit : <strong><?= $prestation->getName(); ?></strong> ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                                <button type="submit" class="btn btn-danger">Supprimer</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="create-product-section" class="col-md-10">
+        <div class="modal fade" id="createProductModal" tabindex="-1" aria-labelledby="createProductModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createProductModalLabel">Créer un produit</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Formulaire pour créer un produit -->
+                        <form action="/ProjetFinal_LaetitiaNailArts/admin/check-create-prestation" method="POST">
+                            <!-- Champ de nom du produit -->
+                            <div class="mb-3">
+                                <label for="product-name" class="form-label">Nom du produit</label>
+                                <input type="text" class="form-control" id="product-name" name="product-name" required>
+                            </div>
+
+                            <!-- Champ de slug du produit -->
+                            <div class="mb-3">
+                                <label for="product-slug" class="form-label">Chemin du produit</label>
+                                <input type="text" class="form-control" id="product-slug" name="product-slug" required>
+                            </div>
+
+                            <!-- Champ de description du produit -->
+                            <div class="mb-3">
+                                <label for="product-description" class="form-label">Description du produit</label>
+                                <textarea class="form-control" id="product-description" name="product-description" required></textarea>
+                                <div id="description-error" class="text-danger"></div>
+                            </div>
+
+                            <!-- Champ de prix du produit -->
+                            <div class="mb-3">
+                                <label for="product-duration" class="form-label">Prix du produit</label>
+                                <input type="text" class="form-control" id="product-duration" name="product-duration" required>
+                            </div>
+
+                            <!-- Champ de prix du produit -->
+                            <div class="mb-3">
+                                <label for="product-price" class="form-label">Prix du produit</label>
+                                <input type="text" class="form-control" id="product-price" name="product-price" required>
+                            </div>
+
+                            <!-- Champ de catégories du produit (cases à cocher) -->
+                            <div class="mb-3">
+                                <label class="form-label">Catégorie de la prestation</label>
+                                <select class="form-select" name="category_id">
+                                    <?php foreach ($data['categories'] as $category) : ?>
+                                        <option value="<?= $category->getId(); ?>"><?= $category->getName(); ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Créer le produit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>

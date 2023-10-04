@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $data['title'] ?></title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Laetitia Nails Art</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
     <header>
         <!-- Insérer le contenu de l'en-tête ici -->
-        <nav>
-            <ul>
-                <li><a href="/ProjetFinal_LaetitiaNailArts/">Accueil</a></li>
-                <li><a href="/prestations">Prestations</a></li>
-                <li><a href="/ProjetFinal_LaetitiaNailArts/portfolio">Portfolio</a></li>
-                <!-- Ajouter les autres liens de navigation ici -->
-            </ul>
-        </nav>
+        <?php
+            if (isset($_SESSION["role"])) {
+                if ($_SESSION["role"] === "admin") {
+                require 'admin/_header.phtml'; // Accès administrateur
+                } else {
+                require 'user/_header.phtml'; // Accès utilisateur
+                }
+            } else {
+                require 'guess/_header.phtml'; // Accès visiteurs
+            }
+        ?>
     </header>
     
     <?php require "templates/{$page}.phtml"; ?>

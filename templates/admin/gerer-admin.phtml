@@ -1,0 +1,97 @@
+<!-- gerer-admin.phtml -->
+<main class="container">
+    <div class="row">
+        <h2 class="text-center mt-4 mb-4">Gestion des administrateurs</h2>
+        <div class="row">
+        <section class="text-center">
+            <h3 class="text-center p-2 mb-4" style="border: 1px solid #000; text-decoration: underline;"> Créer un(e) nouvel(le) admin</h3>
+
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createProductModal">
+                Créer un nouvel admin
+            </button>
+        </section>
+        <!-- Aficher la liste des administrateurs -->
+        <section class="mx-auto col-md-6 border-right border-1 p-4">
+            <h2 class="text-center mb-4">Liste des administrateurs</h2>
+            <table class="table table-bordered table-responsive">
+                <thead>
+                <tr>
+                    <th class="text-center col-md-1">ID</th>
+                    <th class="text-center col-md-2">USERNAME</th>
+                    <th class="text-center col-md-2">ACTIONS</th> <!-- Ajoutez une colonne pour les actions -->
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($data["admins"] as $admin): ?>
+                    <tr>
+                        <td class="text-center col-md-1"><?= $admin->getId(); ?></td>
+                        <td class="text-center col-md-2"><?= $admin->getUsername(); ?></td>
+                        <td class="text-center col-md-2">
+                            <!-- Bouton "Modifier" avec un lien vers la page de modification de l'administrateur -->
+                            <a href="/ProjetFinal_LaetitiaNailArts/admin/update-admin?id=<?= $admin->getId(); ?>" class="btn btn-primary">
+                                Modifier
+                            </a>
+                            <!-- Bouton "Supprimer" avec un lien vers la page de suppression de l'administrateur -->
+                            <button class="btn btn-danger delete-admin-btn" data-admin-id="<?= $admin->getId(); ?>">
+                                Supprimer
+                            </button>
+                            <!-- Modal de confirmation -->
+                            <form class="delete-product-form" method="POST" action="/ProjetFinal_LaetitiaNailArts/admin/delete-admin">
+                                <input type="hidden" name="admin_id" value="<?= $admin->getId(); ?>">
+                                <div class="modal fade" id="confirmDeleteModal<?= $admin->getId(); ?>" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmation de suppression</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Êtes-vous sûr de vouloir supprimer cette admin : <strong><?= $admin->getUsername(); ?></strong> ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                                <button type="submit" class="btn btn-danger">Supprimer</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </section>
+        </div>
+        <!-- Formulaire de création d'administrateur -->
+        <section id="create-admin-section" class="col-md-6 border-right border-1 p-4">
+            <div class="modal fade" id="createProductModal" tabindex="-1" aria-labelledby="createProductModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="createProductModalLabel">Créer un(e) nouvel(le) admin</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+<!--                            <h2 class="text-center mb-4"></h2>-->
+                            <form method="post" action="/ProjetFinal_LaetitiaNailArts/admin/create-admin" class="col-4">
+                                <input type="hidden" name="formName" id="formName" value="adminRegisterForm" />
+                                <div class="justify-content-center">
+                                    <fieldset class="col-10 mb-3">
+                                        <label for="new_username" class="form-label">Nom d'utilisateur</label>
+                                        <input type="text" name="new_username" id="new_username" class="form-control col-10" required>
+                                    </fieldset>
+                                    <fieldset class="col-10 mb-3">
+                                        <label for="new_password" class="form-label">Mot de passe</label>
+                                        <input type="password" name="new_password" id="new_password" class="form-control col-10" required>
+                                    </fieldset>
+                                    <button type="submit" class="btn btn-primary text-center">Créer un admin</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>

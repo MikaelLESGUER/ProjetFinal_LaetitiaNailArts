@@ -1,0 +1,31 @@
+<main class="container py-5">  
+    <article class="card col-12 p-5">  
+        <header>  
+            <h2 class="card-title mb-3">
+<!--                --><?php //var_dump($data) ?>
+                <?php echo $data["prestation"]->getName(); ?>
+            </h2>  
+            <h3 class="card-subtitle mb-4">  
+                <?php echo ($data["prestation"]->getCategoryName()); ?>
+            </h3>  
+        </header>  
+        <p class="card-text">  
+            <?php echo $data["prestation"]->getDescription(); ?>
+        </p>
+        <p class="card-text">
+            <?php echo $data["prestation"]->getDuration(); ?> min
+        </p>
+        <footer>
+            <?php if ($data["prestation"]->getPrice() > 0): ?>
+                <!-- Afficher la ligne de prix et le bouton de réservation si le prix est supérieur à zéro -->
+                <p class="btn btn-light">
+                    Prix de la prestation <?php echo $data["prestation"]->getPrice(); ?> €
+                </p>
+                <a href="/ProjetFinal_LaetitiaNailArts/reserver-prestation/<?php echo $data["prestation"]->getId(); ?>" class="btn btn-success">Réserver</a>
+            <?php else: ?>
+                <!-- Afficher uniquement le bouton de demande de devis si le prix est égal à zéro -->
+                <a href="/ProjetFinal_LaetitiaNailArts/demander-devis/<?php echo $data["prestation"]->getId(); ?>" class="btn btn-info">Demander un devis</a>
+            <?php endif; ?>
+        </footer>
+    </article>  
+</main>

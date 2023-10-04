@@ -1,0 +1,131 @@
+<!-- list-categories.phtml -->
+<main class="container">
+    <!-- Afficher le message de succès si "update-success" est défini -->
+    <?php if (isset($_GET['update-success']) && $_GET['update-success'] == 1): ?>
+        <div class="alert alert-success" role="alert">
+            La catégorie a été modifiée avec succès.
+        </div>
+    <?php endif; ?>
+
+    <!-- Afficher le message d'erreur si "update-error" est défini -->
+    <?php if (isset($_GET['update-error']) && $_GET['update-error'] == 1): ?>
+        <div class="alert alert-danger" role="alert">
+            La modification de la catégorie a échoué. Veuillez réessayer.
+        </div>
+    <?php endif; ?>
+    <h2 class="text-center p-4 mb-4">Gérér les Catégories</h2>
+    <section class="text-center">
+        <h3 class="text-center p-2 mb-4" style="border: 1px solid #000; text-decoration: underline;"> Créer une nouvelle catégorie</h3>
+
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCategoryModal">
+            Créer une nouvelle catégorie
+        </button>
+    </section>
+    <section>
+        <h3 class="text-center mb-4">Liste des Catégories</h3>
+        <table class="table table-bordered table-responsive">
+            <thead>
+            <tr>
+                <th class="text-center">ID</th>
+                <th class="text-center">Nom de la Catégorie</th>
+                <th class="text-center">Slug</th>
+                <th class="text-center">Description</th>
+                <th class="text-center">Actions</th>
+                <th class="text-center col-md-1">Supprimer</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($data['categories'] as $category): ?>
+                <tr>
+                    <td class="text-center"><?= $category->getId(); ?></td>
+                    <td><?= $category->getName(); ?></td>
+                    <td><?= $category->getSlug(); ?></td>
+                    <td><?= $category->getDescription(); ?></td>
+                    <td class="text-center">
+                        <a href="/ProjetFinal_LaetitiaNailArts/admin/edit-category?id=<?= $category->getId(); ?>" class="btn btn-primary">Modifier</a>
+                    </td>
+                    <td>
+                        <!-- Bouton de suppression avec un attribut data-category-id -->
+                        <button class="btn btn-danger delete-category-btn" data-category-id="<?= $category->getId(); ?>">Supprimer</button>
+
+                        <!-- Formulaire de confirmation caché -->
+                        <form class="delete-category-form" method="POST" action="/ProjetFinal_LaetitiaNailArts/admin/delete-category">
+                            <input type="hidden" name="category_id" value="<?= $category->getId(); ?>">
+                            <div class="modal fade" id="confirmDeleteModal<?= $category->getId(); ?>" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmation de suppression</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Êtes-vous sûr de vouloir supprimer cette catégorie : <strong><?= $category->getName(); ?></strong> ?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <div class="modal fade" id="createCategoryModal" tabindex="-1" aria-labelledby="createCategoryModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createCategoryModalLabel">Créer une nouvelle catégorie</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+<!--                        <h2 class="mb-4">Créer une nouvelle catégorie</h2>-->
+
+                        <!-- Afficher le message de succès si "create-success" est défini -->
+                        <?php if (isset($_GET['create-success']) && $_GET['create-success'] == 1): ?>
+                            <div class="alert alert-success" role="alert">
+                                La catégorie a été créée avec succès.
+                            </div>
+                        <?php endif; ?>
+
+                        <!-- Afficher le message d'erreur si "create-error" est défini -->
+                        <?php if (isset($_GET['create-error']) && $_GET['create-error'] == 1): ?>
+                            <div class="alert alert-danger" role="alert">
+                                La création de la catégorie a échoué. Veuillez réessayer.
+                            </div>
+                        <?php endif; ?>
+
+                        <form action="/ProjetFinal_LaetitiaNailArts/admin/create-category" method="POST">
+                            <!-- Champ de nom de la catégorie -->
+                            <div class="mb-3">
+                                <label for="category-name" class="form-label">Nom de la catégorie</label>
+                                <input type="text" class="form-control" id="category-name" name="category-name" required>
+                            </div>
+
+                            <!-- Champ de slug de la catégorie -->
+                            <div class="mb-3">
+                                <label for="category-slug" class="form-label">Slug de la catégorie</label>
+                                <input type="text" class="form-control" id="category-slug" name="category-slug" required>
+                            </div>
+
+                            <!-- Champ de description de la catégorie -->
+                            <div class="mb-3">
+                                <label for="category-description" class="form-label">Description de la catégorie</label>
+                                <textarea class="form-control" id="category-description" name="category-description" required></textarea>
+                            </div>
+
+                            <!-- Bouton de soumission du formulaire -->
+                            <button type="submit" class="btn btn-primary">Créer la catégorie</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

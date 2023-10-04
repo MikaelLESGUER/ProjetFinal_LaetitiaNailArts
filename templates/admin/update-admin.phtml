@@ -1,0 +1,21 @@
+<!-- Formulaire de modification d'administrateur -->
+
+<section class="col-md-6 p-4">
+    <h2 class="text-center mb-4">Modifier un administrateur</h2>
+    <form method="post" action="/ProjetFinal_LaetitiaNailArts/admin/modify-admin">
+        <input type="hidden" id="adminId" name="adminId" value="<?php echo $data["admin"]->getId(); ?>">
+        <?php var_dump($data["admin"]->getId()); ?>
+<!--        --><?php //die(); ?>
+        <fieldset class="form-group mb-3">
+            <label for="newUsername" class="">Nouveau nom d'utilisateur :</label>
+            <input type="text" id="newUsername" name="newUsername" class="form-control" value="<?php echo $data["admin"]->getUsername(); ?>">
+        </fieldset>
+
+        <fieldset class="form-group mb-3">
+            <label for="newPassword" class="">Nouveau mot de passe :</label>
+            <input type="password" id="newPassword" name="newPassword" class="form-control" >
+        </fieldset>
+
+        <button type="submit" class="btn btn-primary">Modifier</button>
+    </form>
+</section>

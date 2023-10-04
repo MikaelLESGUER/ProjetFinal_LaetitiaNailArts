@@ -1,0 +1,70 @@
+<!-- gerer-admin.phtml -->
+<main class="container">
+    <?php
+    if (isset($_SESSION['success_message'])) {
+        echo '<div class="alert alert-success fade-out-message">' . $_SESSION['success_message'] . '</div>';
+        unset($_SESSION['success_message']); // Supprime le message de la session
+    }
+
+    if (isset($_SESSION['error_message'])) {
+        echo '<div class="alert alert-danger fade-out-message">' . $_SESSION['error_message'] . '</div>';
+        unset($_SESSION['error_message']); // Supprime le message de la session
+    }
+    ?>
+    <div class="row">
+        <!-- Aficher la liste des administrateurs -->
+        <section class="col-md-12 border-right border-1 p-4 mx-auto">
+            <h2 class="text-center mb-4">Liste des utilisateurs</h2>
+            <table class="table table-bordered table-responsive">
+                <thead>
+                <tr>
+                    <th class="text-center col-md-1">ID</th>
+                    <th class="text-center col-md-2">USERNAME</th>
+                    <th class="text-center col-md-2">NOM</th>
+                    <th class="text-center col-md-2">PRÉNOM</th>
+                    <th class="text-center col-md-2">EMAIL</th>
+                    <th class="text-center col-md-2">ACTION</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($data["users"] as $user): ?>
+<!--                --><?php //var_dump($data["users"]); ?>
+                    <tr>
+                        <td class="text-center col-md-1"><?= $user->getId(); ?></td>
+                        <td class="text-center col-md-2"><?= $user->getUsername(); ?></td>
+                        <td class="text-center col-md-2"><?= $user->getNom(); ?></td>
+                        <td class="text-center col-md-2"><?= $user->getPrenom(); ?></td>
+                        <td class="text-center col-md-2"><?= $user->getEmail(); ?></td>
+                        <td class="text-center col-md-2">
+                            <button class="btn btn-danger delete-user-btn" data-user-id="<?= $user->getId(); ?>">
+                                Supprimer
+                            </button>
+                            <!-- Modal de confirmation -->
+                            <form class="delete-product-form" method="POST" action="/ProjetFinal_LaetitiaNailArts/admin/delete-user">
+                                <input type="hidden" name="user_id" value="<?= $user->getId(); ?>">
+                                <div class="modal fade" id="confirmDeleteModal<?= $user->getId(); ?>" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmation de suppression</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Êtes-vous sûr de vouloir supprimer cette utilisateur : <strong><?= $user->getUsername(); ?></strong> avec l'email <strong><?= $user->getEmail(); ?></strong> ?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                                <button type="submit" class="btn btn-danger">Supprimer</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</main>

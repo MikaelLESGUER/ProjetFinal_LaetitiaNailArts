@@ -1,0 +1,137 @@
+<main class="container py-5">
+    <h2 class="mb-4">Mon Compte</h2>
+
+    <!-- Message de bienvenue avec le nom d'utilisateur -->
+    <div class="alert alert-success">
+        <p>Bienvenue, <?php echo $_SESSION["nom"]; ?> <?php echo $_SESSION["prenom"]; ?> !</p>
+    </div>
+
+    <section class="container py-5">
+        <h2 class="mb-4">Ajouter ou Modifier le Nom et Prénom</h2>
+
+        <?php
+        // Afficher le nom et le prénom de l'utilisateur
+        echo '<p>Nom actuel : ' . $_SESSION["nom"] . '</p>';
+        echo '<p>Prénom actuel : ' . $_SESSION["prenom"] . '</p>';
+
+        // Afficher un message de succès s'il y en a un
+        if (isset($_GET["success"]) && $_GET["success"] === "name_updated") {
+            echo '<div class="alert alert-success">Nom et prénom mis à jour avec succès.</div>';
+        }
+        ?>
+
+        <form method="post" action="/ProjetFinal_LaetitiaNailArts/modifier-nom-prenom">
+            <input type="hidden" name="formName" value="modifyNameForm">
+
+            <div class="mb-3">
+                <label for="new_name" class="form-label">Nouveau nom</label>
+                <input type="text" id="new_name" name="new_name" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="new_lastname" class="form-label">Nouveau prénom</label>
+                <input type="text" id="new_lastname" name="new_lastname" class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Mettre à jour le Nom et Prénom</button>
+        </form>
+    </section>
+
+    <section class="container py-5">
+        <h2 class="mb-4">Modifier le Nom d'Utilisateur</h2>
+
+        <?php
+        echo '<p>Username actuel : ' . $_SESSION["username"] . '</p>';
+        // Afficher un message de succès s'il y en a un
+        if (isset($_GET["success"]) && $_GET["success"] === "username_updated") {
+            echo '<div class="alert alert-success">Nom d\'utilisateur mis à jour avec succès.</div>';
+        }
+        ?>
+
+        <form method="post" action="/ProjetFinal_LaetitiaNailArts/modifier-username">
+            <input type="hidden" name="formUsername" value="modifyUsernameForm">
+
+            <div class="mb-3">
+                <label for="new_username" class="form-label">Nouveau nom d'utilisateur</label>
+                <input type="text" id="new_username" name="new_username" class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Mettre à jour le Nom d'Utilisateur</button>
+        </form>
+    </section>
+
+    <section class="container py-5">
+        <h2 class="mb-4">Modifier l'Adresse E-mail</h2>
+
+        <?php
+        echo '<p>Email actuel : ' . $_SESSION["email"] . '</p>';
+        // Afficher un message de succès s'il y en a un
+        if (isset($_GET["success"]) && $_GET["success"] === "email_updated") {
+            echo '<div class="alert alert-success">Adresse e-mail mise à jour avec succès.</div>';
+        }
+
+        // Afficher un message d'erreur s'il y en a un
+        if (isset($_GET["error"]) && $_GET["error"] === "email_mismatch") {
+            echo '<div class="alert alert-danger">Les adresses e-mail ne correspondent pas.</div>';
+        }
+        ?>
+
+        <form method="post" action="/ProjetFinal_LaetitiaNailArts/modifier-email">
+            <input type="hidden" name="formEmail" value="modifyEmailForm">
+
+            <div class="mb-3">
+                <label for="old_email" class="form-label">Ancienne adresse e-mail</label>
+                <input type="email" id="old_email" name="old_email" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="new_email" class="form-label">Nouvelle adresse e-mail</label>
+                <input type="email" id="new_email" name="new_email" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="confirm_email" class="form-label">Confirmer la nouvelle adresse e-mail</label>
+                <input type="email" id="confirm_email" name="confirm_email" class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Mettre à jour l'Adresse E-mail</button>
+        </form>
+    </section>
+
+    <section class="container py-5">
+        <h2 class="mb-4">Modifier le Mot de Passe</h2>
+
+        <?php
+        // Afficher un message de succès s'il y en a un
+        if (isset($_GET["success"]) && $_GET["success"] === "password_updated") {
+            echo '<div class="alert alert-success">Mot de passe mis à jour avec succès.</div>';
+        }
+
+        // Afficher un message d'erreur s'il y en a un
+        if (isset($_GET["error"]) && $_GET["error"] === "password_mismatch") {
+            echo '<div class="alert alert-danger">Les mots de passe ne correspondent pas.</div>';
+        }
+        ?>
+
+        <form method="post" action="/ProjetFinal_LaetitiaNailArts/modifier-password">
+            <input type="hidden" name="formName" value="modifyPasswordForm">
+
+            <div class="mb-3">
+                <label for="old_password" class="form-label">Ancien mot de passe</label>
+                <input type="password" id="old_password" name="old_password" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="new_password" class="form-label">Nouveau mot de passe</label>
+                <input type="password" id="new_password" name="new_password" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="confirm_password" class="form-label">Confirmer le nouveau mot de passe</label>
+                <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Mettre à jour le Mot de Passe</button>
+        </form>
+    </section>
+</main>

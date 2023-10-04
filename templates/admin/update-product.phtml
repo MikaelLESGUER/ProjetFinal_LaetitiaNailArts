@@ -1,0 +1,51 @@
+<main class="container">
+    <section class="col-md-6 border-right border-1 p-4">
+        <form action="/ProjetFinal_LaetitiaNailArts/admin/check-update-prestation" method="POST">
+            <!-- Input caché pour stocker l'ID du produit à mettre à jour -->
+            <input type="hidden" id="prestation_id" name="prestation_id" value="<?php echo $data["prestation"]->getId(); ?>">
+
+                <!-- Champ de mise à jour du nom du produit -->
+                <fieldset class="mb-3">
+                    <label for="prestation-name"  class="form-label">Nom de la prestation</label>
+                    <input type="text" class="form-control" id="prestation-name" name="prestation-name" value="<?php echo $data["prestation"]->getName(); ?>"
+                </fieldset>
+                <!-- Champ de mise à jour du nom du produit -->
+                <fieldset class="mb-3">
+                    <label for="prestation-slug"  class="form-label">Chemin de la prestation</label>
+                    <input type="text" class="form-control" id="prestation-slug" name="prestation-slug" value="<?php echo $data["prestation"]->getSlug(); ?>">
+                </fieldset>
+                <!-- Champ de mise à jour du nom du produit -->
+                <fieldset class="mb-8">
+                    <label for="prestation-description" class="form-label">Description de la prestation</label>
+                    <textarea class="form-control" id="prestation-description" name="prestation-description" ><?php echo $data["prestation"]->getDescription(); ?></textarea>
+                </fieldset>
+                <!-- Champ de mise à jour du prix du produit -->
+                <fieldset class="mb-3">
+                    <label for="prestation-price" class="form-label">Prix de la prestation</label>
+                    <input type="text" class="form-control" id="prestation-price" name="prestation-price" value="<?php echo $data["prestation"]->getPrice(); ?>">
+                </fieldset>
+                <!-- Champ de mise à jour du prix du produit -->
+                <fieldset class="mb-3">
+                    <label for="prestation-duration" class="form-label">Durée de la prestation</label>
+                    <input type="number" class="form-control" id="prestation-duration" name="prestation-duration" value="<?php echo $data["prestation"]->getDuration(); ?>">
+                </fieldset>
+
+                <fieldset class="mb-3">
+                    <label class="form-label">Sélectionner une ou plusieurs catégorie(s) :</label>
+                    <?php foreach ($data["categories"] as $category) : ?>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="category_id" value="<?= $category->getId(); ?> "
+                                   <?php if ($category->getId() == $data["categoryIds"]) : ?>checked<?php endif; ?>>
+<!--                                   --><?php //if (in_array($category->getId(), $data["categoryId"])) : ?><!--checked--><?php //endif; ?><!-- >-->
+                            <label class="form-check-label">
+                                <?= $category->getName(); ?>
+                            </label>
+                        </div>
+                    <?php endforeach; ?>
+                </fieldset>
+
+            <!-- Bouton de soumission du formulaire -->
+            <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+        </form>
+    </section>
+</main>
