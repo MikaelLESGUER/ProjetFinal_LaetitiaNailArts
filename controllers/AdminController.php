@@ -4,6 +4,8 @@ class AdminController extends AbstractController
 {
     private AdminManager $adminManager;
     private CategoryManager $categoryManager;
+    private ContactManager $contactManager;
+    private ContactFormManager $contactFormManager;
     private UserManager $userManager;
     private PrestationManager $prestationManager;
 
@@ -11,6 +13,8 @@ class AdminController extends AbstractController
     {
         $this->adminManager = new AdminManager();
         $this->categoryManager = new CategoryManager();
+        $this->contactManager = new ContactManager();
+        $this->contactFormManager= new ContactFormManager();
         $this->userManager = new UserManager();
         $this->prestationManager = new PrestationManager();
     }
@@ -22,7 +26,8 @@ class AdminController extends AbstractController
 
     public function adminDashboard() : void
     {
-        $this->render("admin/dashboard", []);
+        $results = $this->contactFormManager->countMessagesByRole();
+        $this->render("admin/dashboard", ['results' => $results]);
     }
 
     ////////////////////
@@ -95,7 +100,6 @@ class AdminController extends AbstractController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $adminId = $_POST['admin_id'];
-            var_dump($adminId);
 
             // Appelez la fonction du manager pour supprimer le produit par son ID
             $success = $this->adminManager->deleteAdmin($adminId);
@@ -131,8 +135,6 @@ class AdminController extends AbstractController
 
             // Appelez la fonction du manager pour supprimer le produit par son ID
             $success = $this->userManager->deleteUser($userId);
-            var_dump($success);
-//            die();
 
             if ($success) {
                 // Rediriger vers une page de confirmation ou une autre page appropriée
@@ -153,25 +155,30 @@ class AdminController extends AbstractController
     ///   PRODUITS   ///
     ////////////////////
 
-    public function listPrestation() : void
+        public function listPrestation() : void
     {
-        $prestations = $this->prestationManager->getAllPrestationsAndCategories(); // Utilisation du ProductManager
         $categories = $this->categoryManager->getAllCategories();
-//        var_dump($products, $categories);
-//        die();
+        $prestationsByCategory = [];
+
+
+        foreach ($categories as $category) {
+            $prestations = $this->prestationManager->getPrestationsByCategoryName($category->getSlug());
+
+            // Appliquer htmlspecialchars_decode() à la description de chaque prestation
+            foreach ($prestations as $prestation) {
+                $prestation->setDescription(htmlspecialchars_decode($prestation->getDescription()));
+            }
+
+            $prestationsByCategory[$category->getName()] = $prestations;
+        }
 
         $this->render("admin/gerer-produits", [
-            "prestations" => $prestations,
-            'categories' => $categories
+            "prestationsByCategory" => $prestationsByCategory,
         ]);
     }
 
     public function displayUpdatePrestationForm($prestationId)
     {
-        // Récupérer l'ID du produit à partir de la requête GET
-//        $productId = $_GET['id'];
-//        var_dump($_GET['id']);
-//die();
         // Utilisez le gestionnaire de produits pour obtenir les détails du produit
         $prestation = $this->prestationManager->getPrestationById($prestationId);
         $categories = $this->categoryManager->getAllCategories();
@@ -183,8 +190,6 @@ class AdminController extends AbstractController
     public function updatePrestation() :void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            var_dump('je fonctionne');
-//            die();
             // Récupérez les données du formulaire
             $prestationId = $_POST['prestation_id'];
             $name = $_POST['prestation-name'];
@@ -197,23 +202,8 @@ class AdminController extends AbstractController
             $price = $this->clean($price);
             $duration = $_POST['prestation-duration'];
             $duration = $this->clean($duration);
-//            var_dump($name, $price);
-//            die();
             $categoryId = $_POST['category_id'];
-            // Assurez-vous que la variable $categoryId est récupérée du formulaire et convertie en entier
-//            $categoryId = isset($_POST['category_id']) ? intval($_POST['category_id']) : 0;
-//            $categoryIds = isset($_POST['category_ids']) ? $_POST['category_ids'] : [];
-//            var_dump($categoryIds);
-//            die();
-            // Validez les données du formulaire (assurez-vous qu'elles sont correctes)
-            // Vérifiez si au moins une catégorie est sélectionnée
-            if (empty($categoryId)) {
-                // Aucune catégorie sélectionnée, affichez un message d'erreur
-                $errorMessage = "Veuillez sélectionner une seule catégorie.";
-                $_SESSION['error_message'] = $errorMessage;
-                header('Location: /ProjetFinal_LaetitiaNailArts/admin/gerer-prestations');
-                exit;
-            }
+            $categoryId = $this->clean($categoryId);
 
             // Vérifiez que le champ "price" contient uniquement des caractères numériques et des points
             if (!preg_match('/^[0-9.]+$/', $price)) {
@@ -224,16 +214,7 @@ class AdminController extends AbstractController
                 exit;
             }
 
-            // Vérifiez que le prix n'est pas négatif
-            if ($price <= 0) {
-                // Le prix est inférieur ou égal à zéro, affichez un message d'erreur
-                $errorMessage = ("Le prix ne peut pas être négatif ou égal a zéro.");
-                $_SESSION['error_message'] = $errorMessage;
-                header('Location: /ProjetFinal_LaetitiaNailArts/admin/gerer-prestations');
-                exit;
-            }
-
-            // Vérifiez que le prix n'est pas négatif
+            // Vérifiez que La durée de la prestation n'est pas négatif
             if ($duration <= 0) {
                 // Le prix est inférieur ou égal à zéro, affichez un message d'erreur
                 $errorMessage = ("Le prix ne peut pas être négatif ou égal a zéro.");
@@ -244,8 +225,6 @@ class AdminController extends AbstractController
 
             // Appelez la fonction du manager pour mettre à jour le produit
             $success = $this->prestationManager->updatePrestation($prestationId, $name, $slug, $description,$duration, $price, $categoryId);
-            var_dump($success);
-//            die();
             if ($success) {
                 $_SESSION['success_message'] = "Le produit a été mis à jour avec succès.";
             } else {
@@ -279,18 +258,7 @@ class AdminController extends AbstractController
             $duration = $_POST['product-duration'];
             $duration = $this->clean($duration);
             $categoryId = $_POST['category_id'];
-            var_dump($name,$slug,$description,$duration,$price,$categoryId);
-//            die();
-//            $categoryIds = isset($_POST['category-ids']) ? $_POST['category-ids'] : [];
-
-            // Vérifiez si au moins une catégorie est sélectionnée
-            if (empty($categoryId)) {
-                // Aucune catégorie sélectionnée, affichez un message d'erreur
-                $errorMessage = "Veuillez sélectionner au moins une catégorie.";
-                $_SESSION['error_message'] = $errorMessage;
-                header('Location: /ProjetFinal_LaetitiaNailArts/admin/gerer-produits');
-                exit;
-            }
+            $categoryId = $this->clean($categoryId);
 
             // Vérifiez que le champ "price" contient uniquement des caractères numériques et des points
             if (!preg_match('/^[0-9.]+$/', $price)) {
@@ -301,29 +269,17 @@ class AdminController extends AbstractController
                 exit;
             }
 
-            // Vérifiez que le prix n'est pas négatif
-            if ($price <= 0) {
+            // Vérifiez que La durée de la prestation n'est pas négatif
+            if ($duration <= 0) {
                 // Le prix est inférieur ou égal à zéro, affichez un message d'erreur
                 $errorMessage = ("Le prix ne peut pas être négatif ou égal a zéro.");
                 $_SESSION['error_message'] = $errorMessage;
-                header('Location: /ProjetFinal_LaetitiaNailArts/admin/gerer-produits');
+                header('Location: /ProjetFinal_LaetitiaNailArts/admin/gerer-prestations');
                 exit;
             }
-            var_dump($price);
-            var_dump($price<0);
-//            die();
-            // Vérifiez si le nom de produit est unique en appelant la fonction du manager
-//            if (!$this->productManager->isProductNameUnique(strtolower($name))) {
-//                // Le nom de produit n'est pas unique, affichez un message d'erreur
-//                $errorMessage = urlencode("Le nom de produit '$name' existe déjà. Veuillez choisir un nom unique.");
-//                header('Location: /ProjetFinal_LaetitiaNailArts/admin/gerer-produits?error=' . $errorMessage);
-//                exit;
-//            }
 
             // Appelez la fonction du manager pour créer le produit
             $success = $this->prestationManager->createPrestation($name, $slug, $description, $duration, $price, $categoryId);
-            var_dump($success);
-//            die();
             if ($success) {
                 $_SESSION['success_message'] = "Le produit a été créé avec succès.";
             } else {
@@ -341,55 +297,7 @@ class AdminController extends AbstractController
 
         }
     }
-//
-//    public function createProduct()
-//    {
-//        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//            // Récupérez les données du formulaire
-//            $name = $_POST['product-name'];
-//            // Vérifiez si le nom de produit est unique en appelant la fonction du manager
-////           if (!$this->productManager->isProductNameUnique(strtolower($name))) {
-//                // Utilisez header pour rediriger avec un message d'erreur dans l'URL
-////              $errorMessage = urlencode("Le nom de produit '$name' existe déjà. Veuillez choisir un nom unique.");
-////              var_dump("Product name '$name' already exists");
-////                die();
-////              header('Location: /ProjetFinal_LaetitiaNailArts/admin/gerer-produits?error=' . $errorMessage);
-////               exit;
-////           }
-////            $slug = $_POST['product-slug'];
-//            $rawSlug = $_POST['product-slug'];
-//            var_dump($rawSlug);
-//            $rawSlug = $this->clean($rawSlug);
-//            var_dump($rawSlug);
-////            die();
-//            $slug = $this->createSlug($rawSlug);
-//            var_dump($slug);
-////            die();
-////            if (!empty($slug)) {
-////                // Le slug est valide, vous pouvez l'utiliser pour créer le produit
-////            } else {
-////                // Le slug est invalide, affichez un message d'erreur à l'utilisateur
-////                header('Location: /ProjetFinal_LaetitiaNailArts/admin/gerer-produits?create-error=1&slug-error=1');
-////                exit;
-////            }
-//            $description = $_POST['product-description'];
-//            $price = $_POST['product-price'];
-//            $categoryIds = isset($_POST['category-ids']) ? $_POST['category-ids'] : [];
-//
-//            // Appelez la fonction du manager pour créer le produit
-//            $success = $this->productManager->createProduct($name, $slug, $description, $price, $categoryIds);
-//
-//            if ($success) {
-//                // Redirigez l'utilisateur vers la page de gestion des produits ou affichez un message de succès
-//                header('Location: /ProjetFinal_LaetitiaNailArts/admin/gerer-produits?create-success=1');
-//            } else {
-//                // Affichez un message d'erreur en cas d'échec de la création
-//                header('Location: /ProjetFinal_LaetitiaNailArts/admin/gerer-produits?create-error=1');
-//            }
-//            exit;
-//        }
-//    }
-
+    
     public function deletePrestation()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -414,6 +322,10 @@ class AdminController extends AbstractController
             exit;
         }
     }
+
+    /////////////////////
+    ///   CATEGORIE   ///
+    /////////////////////
 
     public function listCategories()
     {
@@ -498,5 +410,119 @@ class AdminController extends AbstractController
             exit;
         }
     }
+    
+   //////////////////////
+    ///   formulaire   ///
+    //////////////////////
 
+    public function displayAllContactForms() : void
+    {
+        // Créez une instance du gestionnaire de formulaires de contact
+        $contactForms = $this->contactFormManager->getAllContactForms();
+
+        // Chargez la vue pour afficher les formulaires
+        $this->render('admin/list-formulaire', ['contactForms' => $contactForms]);
+    }
+
+    public function displayContactFormDetails($messageId) :void
+    {
+        // Créez une instance du gestionnaire de formulaires de contact
+        $contactFormManager = new ContactFormManager();
+
+        // Appelez la fonction du gestionnaire pour marquer le formulaire comme "lu"
+        $contactFormManager->markContactFormAsRead($messageId);
+
+        // Appelez la fonction pour obtenir les détails du formulaire de contact
+        $contactForm = $this->contactFormManager->getContactFormById($messageId);
+
+        // Chargez la vue pour afficher les détails du formulaire de contact
+        $this->render('admin/view-form', ['contactForm' => $contactForm]);
+    }
+
+    public function deleteContactForm() : void
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Récupérez l'ID de la catégorie à supprimer
+            $messageId = $_POST['contactForm_id'];
+
+            // Appelez la fonction du gestionnaire pour supprimer la catégorie
+            $success = $this->contactFormManager->deleteContactForm($messageId);
+
+            if ($success) {
+                $_SESSION['success_message'] = "Le formulaire a été supprimé avec succès.";
+            } else {
+                $_SESSION['error_message'] = "Une erreur est survenue lors de la suppression du formulaire.";
+            }
+
+            if ($success) {
+                // Redirigez l'utilisateur vers la page de gestion des catégories avec un message de succès
+                header('Location: /ProjetFinal_LaetitiaNailArts/admin/gerer-formulaire');
+            } else {
+                // Redirigez l'utilisateur vers la page de gestion des catégories avec un message d'erreur
+                header('Location: /ProjetFinal_LaetitiaNailArts/admin/gerer-formulaire');
+            }
+            exit;
+        }
+    }
+
+    ///////////////////
+    ///   contact   ///
+    ///////////////////
+
+    public function showManageContact() :void
+    {
+        $contactInfo = $this->contactManager->getContactInfo(); // Appelez la fonction du gestionnaire pour récupérer les informations de contact
+        $this->render('admin/manage-contact', ['contactInfo' => $contactInfo]);
+    }
+
+    public function updateAddress() :void
+    {
+        // Récupérez les données soumises depuis le formulaire
+        $adresse = $_POST['adresse'];
+        $adresse = $this->clean($adresse);
+        $codePostal = $_POST['code_postal'];
+        $codePostal = $this->clean($codePostal);
+        $ville = $_POST['ville'];
+        $ville = $this->clean($ville);
+
+        // Appelez la fonction du gestionnaire pour mettre à jour l'adresse
+        $this->contactManager->updateAddress($adresse, $codePostal, $ville);
+
+        // Redirigez l'utilisateur vers la page de contact après la mise à jour
+        $sucessMessage = ("L'adresse' a était mise a jour avec succès.");
+        $_SESSION['sucess_message'] = $sucessMessage;
+        header('Location: /ProjetFinal_LaetitiaNailArts/admin/gerer-contact');
+    }
+
+    public function updateUrlGeo() :void
+    {
+        // Récupérez l'URL Google Maps soumise depuis le formulaire
+        $urlGeo = $_POST['url_geo'];
+        $urlGeo = $this->clean($urlGeo);
+
+        // Appelez la fonction du gestionnaire pour mettre à jour l'URL Google Maps
+        $this->contactManager->updateUrlGeo($urlGeo);
+
+        // Redirigez l'utilisateur vers la page de contact après la mise à jour
+        $sucessMessage = ("L'url de géolocalisation a était mise a jour avec succès.");
+        $_SESSION['sucess_message'] = $sucessMessage;
+        header('Location: /ProjetFinal_LaetitiaNailArts/admin/gerer-contact');
+    }
+
+    public function updatePhoneNumbers() :void
+    {
+        // Récupérez les numéros de téléphone soumis depuis le formulaire
+        $numeroFixe = $_POST['numero_fixe'];
+        $numeroFixe = $this->clean($numeroFixe);
+        $numeroPortable = $_POST['numero_portable'];
+        $numeroPortable = $this->clean($numeroPortable);
+
+        // Appelez la fonction du gestionnaire pour mettre à jour les numéros de téléphone
+        $this->contactManager->updatePhoneNumbers($numeroFixe, $numeroPortable);
+
+        // Redirigez l'utilisateur vers la page de contact après la mise à jour
+        $sucessMessage = ("Les numéros de téléphone ont était mise a jour avec succès.");
+        $_SESSION['sucess_message'] = $sucessMessage;
+        header('Location: /ProjetFinal_LaetitiaNailArts/admin/gerer-contact');
+    }
 }

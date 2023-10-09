@@ -1,0 +1,143 @@
+<main class="container py-5">
+    <?php
+    // Inclure la vérification des messages d'erreur et de succès ici
+    if (isset($_SESSION['success_message'])) {
+        echo '<div class="success-message">' . $_SESSION['success_message'] . '</div>';
+        unset($_SESSION['success_message']); // Pour effacer le message après l'avoir affiché
+    } elseif (isset($_SESSION['error_message'])) {
+        echo '<div class="error-message">' . $_SESSION['error_message'] . '</div>';
+        unset($_SESSION['error_message']); // Pour effacer le message après l'avoir affiché
+    }
+    ?>
+    <h2>Renseignements</h2>
+    <form method="POST" action="/ProjetFinal_LaetitiaNailArts/check-formulaire-de-renseignement">
+        <div class="mb-3">
+            <label for="prestation" class="form-label">Sélectionnez une prestation (facultatif)</label>
+            <select class="form-select" id="prestation" name="prestation">
+                <option value="">Aucune prestation sélectionnée</option>
+                <!-- Utilisez une boucle foreach pour afficher les prestations depuis la base de données -->
+                <?php foreach ($data['prestations'] as $prestation): ?>
+                    <option value="<?php echo $prestation->getId(); ?>"><?php echo $prestation->getName(); ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="subject" class="form-label">Sujet</label>
+            <input type="text" class="form-control" id="subject" name="subject" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Adresse Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="mb-3">
+            <label for="message" class="form-label">Message</label>
+            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Envoyer les renseignements</button>
+    </form>
+</main>
+
+
+<!--<main class="container py-5">-->
+<!--    <h2>Renseignements</h2>-->
+<!--    <form method="POST" action="/ProjetFinal_LaetitiaNailArts/submitRenseignements">-->
+<!--        <div class="mb-3">-->
+<!--            <label for="category" class="form-label">Catégorie</label>-->
+<!--            <select class="form-select" id="category" name="category" required>-->
+<!--                <option value="" disabled selected>Sélectionnez une catégorie</option>-->
+<!--                 Les options de catégories seront générées dynamiquement par JavaScript-->
+<!--            </select>-->
+<!--        </div>-->
+<!--        <div class="mb-3">-->
+<!--            <label for="prestation" class="form-label">Prestation</label>-->
+<!--            <select class="form-select" id="prestation" name="prestation">-->
+<!--                <option value="" disabled selected>Sélectionnez une prestation (facultatif)</option>-->
+<!--                 Les options de prestations seront générées dynamiquement par JavaScript-->
+<!--            </select>-->
+<!--        </div>-->
+<!--        <div class="mb-3">-->
+<!--            <label for="name" class="form-label">Nom</label>-->
+<!--            <input type="text" class="form-control" id="name" name="name" required>-->
+<!--        </div>-->
+<!--        <div class="mb-3">-->
+<!--            <label for="email" class="form-label">Adresse Email</label>-->
+<!--            <input type="email" class="form-control" id="email" name="email" required>-->
+<!--        </div>-->
+<!--        <div class="mb-3">-->
+<!--            <label for="message" class="form-label">Message</label>-->
+<!--            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>-->
+<!--        </div>-->
+<!--        <button type="submit" class="btn btn-primary">Envoyer la demande</button>-->
+<!--    </form>-->
+<!--</main>-->
+<!---->
+<!--<script>-->
+<!--    // Sélectionnez les éléments de formulaire-->
+<!--    const categorySelect = document.getElementById('category');-->
+<!--    const prestationSelect = document.getElementById('prestation');-->
+<!---->
+<!--    // Fonction pour charger les catégories et prestations depuis le serveur-->
+<!--    function loadCategoriesAndPrestations() {-->
+<!--        // fetch('/ProjetFinal_LaetitiaNailArts/controllers/ContactFormController.php')-->
+<!--        fetch('/ProjetFinal_LaetitiaNailArts/ContactForm/getCategoriesAndPrestations')-->
+<!--            .then(response => {-->
+<!--                if (!response.ok) {-->
+<!--                    throw new Error('Network response was not ok');-->
+<!--                }-->
+<!--                return response.json();-->
+<!--            })-->
+<!--            .then(response => response.json())-->
+<!--            .then(data => {-->
+<!--                console.log(data)-->
+<!--                // Remplissez la liste déroulante des catégories-->
+<!--                data.categories.forEach(category => {-->
+<!--                    const option = document.createElement('option');-->
+<!--                    option.value = category.id; // Remplacez par l'ID de la catégorie-->
+<!--                    option.textContent = category.name; // Remplacez par le nom de la catégorie-->
+<!--                    categorySelect.appendChild(option);-->
+<!--                });-->
+<!---->
+<!--                // Remplissez la liste déroulante des prestations-->
+<!--                data.prestations.forEach(prestation => {-->
+<!--                    const option = document.createElement('option');-->
+<!--                    option.value = prestation.id; // Remplacez par l'ID de la prestation-->
+<!--                    option.textContent = prestation.name; // Remplacez par le nom de la prestation-->
+<!--                    prestationSelect.appendChild(option);-->
+<!--                });-->
+<!--            })-->
+<!--            .catch(error => {-->
+<!--                console.error('Une erreur s\'est produite lors du chargement des données :', error);-->
+<!--            });-->
+<!--    }-->
+<!---->
+<!--    // Appelez la fonction pour charger les catégories et prestations au chargement de la page-->
+<!--    loadCategoriesAndPrestations();-->
+<!---->
+<!--    // Ajoutez un gestionnaire d'événements pour le changement de catégorie-->
+<!--    categorySelect.addEventListener('change', () => {-->
+<!--        // Effacez les anciennes options de prestation-->
+<!--        prestationSelect.innerHTML = '';-->
+<!---->
+<!--        // Chargez les prestations correspondantes à la catégorie sélectionnée-->
+<!--        const selectedCategoryId = categorySelect.value;-->
+<!--        loadPrestationsByCategory(selectedCategoryId);-->
+<!--    });-->
+<!---->
+<!--    // Fonction pour charger les prestations correspondant à une catégorie donnée-->
+<!--    function loadPrestationsByCategory(categoryId) {-->
+<!--        fetch(`/ContactForm/getPrestationsByCategory?category_id=${categoryId}`)-->
+<!--            .then(response => response.json())-->
+<!--            .then(prestations => {-->
+<!--                // Remplissez la liste déroulante des prestations-->
+<!--                prestations.forEach(prestation => {-->
+<!--                    const option = document.createElement('option');-->
+<!--                    option.value = prestation.id; // Remplacez par l'ID de la prestation-->
+<!--                    option.textContent = prestation.name; // Remplacez par le nom de la prestation-->
+<!--                    prestationSelect.appendChild(option);-->
+<!--                });-->
+<!--            })-->
+<!--            .catch(error => {-->
+<!--                console.error('Une erreur s\'est produite lors du chargement des prestations :', error);-->
+<!--            });-->
+<!--    }-->
+<!--</script>-->

@@ -1,20 +1,23 @@
 <header>
-    <div class="d-flex justify-content-between align-items-center"> <!-- Utilisez d-flex, justify-content-between et align-items-center -->
-        <h1><a class="navbar-brand" href="/ProjetFinal_LaetitiaNailArts/">Laetitia Nails Art</a></h1>
-        <!-- Lien pour la déconnexion -->
-        <a class="btn btn-danger" href="/ProjetFinal_LaetitiaNailArts/deconnexion">Déconnexion</a>
+    <div class="header-content">
+        <!-- Utilisez la classe .h1-replacement-image pour styliser l'image de remplacement en version desktop -->
+        <div class="h1-replacement-image">
+            <img src="/ProjetFinal_LaetitiaNailArts/assets/images/logo/laetitiafashionails.webp" alt=""></div>
+        <h1><a href="/ProjetFinal_LaetitiaNailArts/">Laetitia Nails Art</h1>
+        <button class="desktop-login-button"><a class="" href="/ProjetFinal_LaetitiaNailArts/deconnexion">Déconnexion</a></button>
+        <div class="burger-menu">
+            <i class="fas fa-bars"></i>
+        </div>
     </div>
-    <nav class="navbar navbar-expand-lg bg-light px-3">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                <a class="nav-link" href="/ProjetFinal_LaetitiaNailArts/">Accueil</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/ProjetFinal_LaetitiaNailArts/prestations">prestations</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/ProjetFinal_LaetitiaNailArts/mon-compte">Mon Compte</a>
-            </li>
+    <nav>
+        <ul class="nav-links">
+            <li><a href="/ProjetFinal_LaetitiaNailArts/">accueil</a></li>
+            <li><a href="/ProjetFinal_LaetitiaNailArts/prestations">prestations</a></li>
+            <li><a href="/ProjetFinal_LaetitiaNailArts/formulaire-de-renseignement">formulaire de renseignement</a></li>
+            <li><a href="/ProjetFinal_LaetitiaNailArts/contact">me trouver</a></li>
+            <li class=""><a class="" href="/ProjetFinal_LaetitiaNailArts/mon-compte">Mon Compte</a></li>
+            <!-- Ajouter un élément <li> pour le bouton de connexion en version mobile -->
+            <li class="mobile-login-button"><a class="" href="/ProjetFinal_LaetitiaNailArts/deconnexion">Déconnexion</a></li>
         </ul>
     </nav>
 </header>

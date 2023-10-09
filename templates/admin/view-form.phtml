@@ -1,0 +1,18 @@
+<main>
+    <h1>Détails du formulaire de contact</h1>
+
+    <ul>
+        <li><strong>Message ID:</strong> <?php echo $data['contactForm']->getMessageId(); ?></li>
+        <li><strong>User ID:</strong> <?php echo $data['contactForm']->getUserName(); ?></li>
+        <li><strong>Prestation ID:</strong> <?php echo $data['contactForm']->getPrestationName(); ?></li>
+        <li><strong>Subject:</strong> <?php echo $data['contactForm']->getSubject(); ?></li>
+        <li><strong>Email:</strong> <?php echo $data['contactForm']->getEmail(); ?></li>
+        <li><strong>Message Text:</strong> <?php echo $data['contactForm']->getMessageText(); ?></li>
+        <li><strong>Timestamp:</strong> <?php echo $data['contactForm']->getTimestamp()->format('Y-m-d H:i:s'); ?></li>
+        <li><strong>Role:</strong> <?php echo $data['contactForm']->getRole(); ?></li>
+        <li><strong>Status:</strong> <?php echo $data['contactForm']->getStatus(); ?></li>
+    </ul>
+    <button id="scrollToTopBtn" class="scrollToTopBtn" style="display: none;position: fixed; bottom: 20px; right: 20px">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+</main>

@@ -6,7 +6,7 @@ class CategoryManager extends AbstractManager
     {
         $categories = [];
 
-        $query = "SELECT * FROM Categories_prestations";
+        $query = "SELECT * FROM categories_prestations";
         $stmt = $this->db->prepare($query);
         $stmt->execute();
 
@@ -70,7 +70,7 @@ class CategoryManager extends AbstractManager
 
     public function getCategoryNameById(int $categoryId) : string
     {
-        $query = "SELECT name FROM Categories_prestations WHERE category_id = :categoryId";
+        $query = "SELECT name FROM categories_prestations WHERE category_id = :categoryId";
 
         $stmt = $this->db->prepare($query);
         $stmt->bindValue(':categoryId', $categoryId, PDO::PARAM_INT);

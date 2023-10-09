@@ -1,150 +1,155 @@
-<!-- gerer-produits.phtml -->
-
-<main class="container">
-
-    <h2 class="text-center p-4 mb-4">Gestion des produits</h2>
-
+<main class="">
     <!-- Ajoutez un code PHP pour vérifier les paramètres d'URL et afficher les messages -->
     <?php
     // Vérifiez s'il y a un message d'erreur
-    if (isset($_SESSION['error_message'])) {
-        echo '<div class="alert alert-danger">' . $_SESSION['error_message'] . '</div>';
-        unset($_SESSION['error_message']); // Effacez le message pour éviter qu'il ne s'affiche à nouveau après un rechargement de la page
+    if (isset($_SESSION['success_message'])) {
+        echo '<div class="alert-sucess fade-out-message">' . $_SESSION['success_message'] . '</div>';
+        unset($_SESSION['success_message']); // Supprime le message de la session
     }
 
     // Vérifiez s'il y a un message de succès
-    if (isset($_SESSION['success_message'])) {
-        echo '<div class="alert alert-success">' . $_SESSION['success_message'] . '</div>';
-        unset($_SESSION['success_message']); // Effacez le message pour éviter qu'il ne s'affiche à nouveau après un rechargement de la page
+    if (isset($_SESSION['error_message'])) {
+        echo '<div class="alert-danger fade-out-message">' . $_SESSION['error_message'] . '</div>';
+        unset($_SESSION['error_message']); // Supprime le message de la session
     }
     ?>
-    <section class="text-center">
-        <h3 class="text-center p-2 mb-4" style="border: 1px solid #000; text-decoration: underline;"> Créer un nouveau produit</h3>
+    <h2 class="">Gestion des produits</h2>
+    <section class="">
+        <h3 class="" style="border: 1px solid #000; text-decoration: underline;"> Créer un nouveau produit</h3>
 
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createProductModal">
+        <button type="button" class="" data-bs-toggle="modal" data-bs-target="#createProductModal">
             Créer un nouveau produit
         </button>
     </section>
 
-    <button id="scrollToTopBtn" class="btn btn-primary scrollToTopBtn" style="display: none;position: fixed; bottom: 20px; right: 20px">
+    <button id="scrollToTopBtn" class="scrollToTopBtn" style="display: none;position: fixed; bottom: 20px; right: 20px">
         <i class="fas fa-arrow-up"></i>
     </button>
 
 
     <!-- Aficher la liste des produits -->
-    <section id="product-list-section" class="border-right border-1 p-4">
-        <h3 class="text-center mb-4">Liste des produits</h3>
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead>
-                <tr>
+    <section id="product-list-section" class="">
+        <h3 class="">Liste des produits</h3>
+        <div class="">
+            <div class="container">
+                <div class="category-buttons">
+                    <?php foreach ($data["prestationsByCategory"] as $categoryName => $prestations): ?>
+                        <button onclick="scrollToCategory('<?php echo $categoryName; ?>')">
+                            <?php echo $categoryName; ?>
+                        </button>
+                    <?php endforeach; ?>
+                </div>
 
-                    <th class="text-center col-md-1">NOM</th>
-                    <th class="text-center col-md-2">SLUG</th>
-                    <th class="text-center col-md-2">CATÉGORIES</th>
-                    <th class="text-center col-md-2">DESCRIPTION</th>
-                    <th class="text-center col-md-2">PRIX</th>
-                    <th class="text-center col-md-2">DURÉE</th>
-                    <th class="text-center col-md-1">ACTIONS</th>
-                    <th class="text-center col-md-1">Supprimer</th>
+                <button id="scrollToTopBtn" class="scrollToTopBtn" style="display: none; position: fixed; bottom: 20px; right: 20px">
+                    <i class="fas fa-arrow-up"></i>
+                </button>
 
-                    <!--                    <th class="col-md-3">PASSWORD</th>-->
-                </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($data["prestations"] as $prestation): ?>
-                    <tr>
-                        <td class="text-center col-md-2"><?= $prestation->getName(); ?></td>
-                        <td class="text-center col-md-3"><?= $prestation->getSlug(); ?></td>
-                        <td class="text-center col-md-2"><?= implode(', ', $prestation->getCategories()); ?></td>
-                        <td class="text-center col-md-4"><?= $prestation->getDescription(); ?></td>
-                        <td class="text-center col-md-3"><?= $prestation->getPrice(); ?></td>
-                        <td class="text-center col-md-4"><?= $prestation->getDuration(); ?></td>
-                        <td class="text-center col-md-1">
-                            <!-- Ajoutez le bouton "Modifier" avec un lien vers la page de modification -->
-                            <a href="/ProjetFinal_LaetitiaNailArts/admin/update-prestation?id=<?= $prestation->getId(); ?>" class="btn btn-primary">
-                                <i class="fas fa-pencil-alt"></i>
-                            </a>
-                        </td>
-                        <td class="text-center col-md-1">
-                            <!-- Utilisez une balise <a> pour envelopper l'icône de suppression -->
-                            <a class="btn btn-danger delete-product-btn" data-product-id="<?= $prestation->getId(); ?>">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-
-                            <!-- Formulaire de confirmation caché -->
-                            <form class="delete-product-form" method="POST" action="/ProjetFinal_LaetitiaNailArts/admin/delete-product">
-                                <input type="hidden" name="product_id" value="<?= $prestation->getId(); ?>">
-                                <div class="modal fade" id="confirmDeleteModal<?= $prestation->getId(); ?>" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmation de suppression</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                Êtes-vous sûr de vouloir supprimer ce produit : <strong><?= $prestation->getName(); ?></strong> ?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                                <button type="submit" class="btn btn-danger">Supprimer</button>
+                <?php foreach ($data["prestationsByCategory"] as $categoryName => $prestations): ?>
+                    <h2 id="<?php echo $categoryName; ?>">Catégorie : <?php echo $categoryName; ?></h2>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>NOM</th>
+                            <th>SLUG</th>
+                            <th>DESCRIPTION</th>
+                            <th>PRIX</th>
+                            <th>DURÉE</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($prestations as $prestation): ?>
+                            <tr>
+                                <td><?php echo $prestation->getName(); ?></td>
+                                <td><?php echo $prestation->getSlug(); ?></td>
+                                <td><?php echo $prestation->getDescription(); ?></td>
+                                <td><?php echo $prestation->getPrice(); ?></td>
+                                <td><?php echo $prestation->getDuration(); ?></td>
+                                <td class="">
+                                    <!-- Ajoutez le bouton "Modifier" avec un lien vers la page de modification -->
+                                    <a href="/ProjetFinal_LaetitiaNailArts/admin/update-prestation?id=<?= $prestation->getId(); ?>" class="">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                </td>
+                                <td class="">
+                                    <!-- Utilisez une balise <a> pour envelopper l'icône de suppression -->
+                                    <a class="delete-category-btn" data-category-id="<?= $prestation->getId(); ?>">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                    <!-- Formulaire de confirmation caché -->
+                                    <form class="delete-product-form" id="delete-product" method="POST" action="/ProjetFinal_LaetitiaNailArts/admin/delete-product" style="display: none;">
+                                        <input type="hidden" name="product_id" value="<?= $prestation->getId(); ?>">
+                                        <div class="modal fade" id="confirmDeleteModal<?= $prestation->getId(); ?>" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                                            <div class="">
+                                                <div class="">
+                                                    <div class="">
+                                                        <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmation de suppression</h5>
+                                                        <button type="button" class="" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="">
+                                                        Êtes-vous sûr de vouloir supprimer ce produit : <strong><?= $prestation->getName(); ?></strong> ?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="" data-bs-dismiss="modal">Annuler</button>
+                                                        <button type="submit" class="">Supprimer</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </td>
-                    </tr>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 <?php endforeach; ?>
-                </tbody>
-            </table>
+            </div>
         </div>
     </section>
 
     <section id="create-product-section" class="col-md-10">
         <div class="modal fade" id="createProductModal" tabindex="-1" aria-labelledby="createProductModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
+            <div class="">
+                <div class="">
+                    <div class="">
                         <h5 class="modal-title" id="createProductModalLabel">Créer un produit</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="">
                         <!-- Formulaire pour créer un produit -->
                         <form action="/ProjetFinal_LaetitiaNailArts/admin/check-create-prestation" method="POST">
                             <!-- Champ de nom du produit -->
-                            <div class="mb-3">
+                            <div class="">
                                 <label for="product-name" class="form-label">Nom du produit</label>
                                 <input type="text" class="form-control" id="product-name" name="product-name" required>
                             </div>
 
                             <!-- Champ de slug du produit -->
-                            <div class="mb-3">
+                            <div class="">
                                 <label for="product-slug" class="form-label">Chemin du produit</label>
                                 <input type="text" class="form-control" id="product-slug" name="product-slug" required>
                             </div>
 
                             <!-- Champ de description du produit -->
-                            <div class="mb-3">
+                            <div class="">
                                 <label for="product-description" class="form-label">Description du produit</label>
                                 <textarea class="form-control" id="product-description" name="product-description" required></textarea>
                                 <div id="description-error" class="text-danger"></div>
                             </div>
 
                             <!-- Champ de prix du produit -->
-                            <div class="mb-3">
+                            <div class="">
                                 <label for="product-duration" class="form-label">Prix du produit</label>
                                 <input type="text" class="form-control" id="product-duration" name="product-duration" required>
                             </div>
 
                             <!-- Champ de prix du produit -->
-                            <div class="mb-3">
+                            <div class="">
                                 <label for="product-price" class="form-label">Prix du produit</label>
                                 <input type="text" class="form-control" id="product-price" name="product-price" required>
                             </div>
 
-                            <!-- Champ de catégories du produit (cases à cocher) -->
-                            <div class="mb-3">
+                            <div class="">
                                 <label class="form-label">Catégorie de la prestation</label>
                                 <select class="form-select" name="category_id">
                                     <?php foreach ($data['categories'] as $category) : ?>
@@ -152,11 +157,103 @@
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-
-                            <button type="submit" class="btn btn-primary">Créer le produit</button>
+                            <button type="submit" class="">Créer le produit</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <script>
+        function afficherElement() {
+            document.getElementById("delete-product").style.display = "block";
+        }
+
+        function scrollToCategory(categoryName) {
+            const categoryElement = document.getElementById(categoryName);
+            if (categoryElement) {
+                window.scrollTo({
+                    top: categoryElement.offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Sélectionnez tous les boutons de suppression
+            const deleteButtons = document.querySelectorAll(".delete-category-btn");
+
+            // Ajoutez un gestionnaire d'événements à chaque bouton
+            deleteButtons.forEach(function (button) {
+                button.addEventListener("click", function () {
+                    // Récupérez l'ID de la catégorie à supprimer à partir de l'attribut data-category-id
+                    const categoryId = button.getAttribute("data-category-id");
+
+                    // Affichez la boîte de dialogue de confirmation
+                    const modal = new bootstrap.Modal(document.getElementById("confirmDeleteModal" + categoryId));
+                    modal.show();
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const descriptionInput = document.getElementById('product-description');
+            const descriptionError = document.getElementById('description-error');
+
+            descriptionInput.addEventListener('input', function () {
+                const description = descriptionInput.value;
+                if (description.length < 20) {
+                    descriptionError.textContent = "La description doit avoir au moins 20 caractères.";
+                } else {
+                    descriptionError.textContent = ""; // Efface le message d'erreur
+                }
+            });
+        });
+
+        // Récupérez le bouton
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+
+        // Ajoutez un gestionnaire d'événements pour le défilement de la page
+        window.addEventListener('scroll', function () {
+            // Calculez la position de défilement actuelle
+            const scrollPosition = window.scrollY;
+
+            // Si vous avez parcouru 200px ou plus depuis le haut de la page, affichez le bouton
+            if (scrollPosition >= 200) {
+                scrollToTopBtn.style.display = 'block';
+            } else {
+                scrollToTopBtn.style.display = 'none';
+            }
+        });
+
+        // Ajoutez un gestionnaire d'événements pour le clic sur le bouton
+        scrollToTopBtn.addEventListener('click', function () {
+            // Faites défiler la page vers le haut en douceur
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            // Sélectionnez tous les liens internes qui pointent vers une ancre (href commence par "#")
+            const smoothScrollLinks = document.querySelectorAll('a[href^="#"]');
+
+            // Parcourez chaque lien et ajoutez un écouteur d'événements au clic
+            smoothScrollLinks.forEach(function (link) {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault(); // Empêche le comportement par défaut du lien
+
+                    // Récupérez la cible de l'ancre (l'élément avec l'ID correspondant)
+                    const targetId = this.getAttribute('href').substring(1); // Supprime le "#"
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        // Utilisez la fonction scrollIntoView pour effectuer un défilement doux
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        });
+
+    </script>

@@ -6,130 +6,182 @@ La route pour afficher les prestations :
 
 /prestations
 
+La route pour afficher les prestations :
+
+/conditions-generales
+
 La route pour afficher le détail d'un produit :
 
 /prestations/:prestationSlug
 
-La route qui affiche le formulaire d'inscription
+La route pour afficher le formulaire de devis :
+
+/demander-devis?id=
+
+La route pour afficher le formulaire de devis :
+
+/check-demander-devis
+
+La route pour afficher le formulaire de renseignements :
+
+/formulaire-de-renseignement
+
+La route pour afficher le formulaire de renseignements :
+
+/check-formulaire-de-renseignement
+
+La route qui affiche le formulaire d'inscription :
 
 /creer-un-compte
 
-La route pour l'utilisateur modifie email
+La route pour l'utilisateur modifie email :
 
 /modifier-email
 
-La route pour l'utilisateur modifie son username
+La route pour l'utilisateur modifie son username :
 
 /modifier-username
 
-la route pour l'utilisateur modifie son mot de passe
+la route pour l'utilisateur modifie son mot de passe :
 
 /modifier-password
 
-La route qui créé un utilisateur (l'action du formulaire d'inscription)
+La route qui créé un utilisateur (l'action du formulaire d'inscription) :
 
 /check-creer-un-compte
 
-La route qui affiche le formulaire de connexion
+La route qui affiche le formulaire de connexion :
 
 /connexion
 
-La route qui vérifie la connexion (l'action du formulaire de connexion)
+La route qui vérifie la connexion (l'action du formulaire de connexion) :
 
 /check-connexion
 
-La route pour le compte utilisateur
+La route pour le compte utilisateur :
 
 /mon-compte
 
-La route pour se logger en admin
+La route pour afficher contact :
+
+/contact
+
+La route pour se logger en admin :
 
 /admin
 
-La route pour se logger en Admin
+La route pour se logger en Admin :
 
 /admin-connexion
 
-La route qui vérifie la connexion (l'action du formulaire de connexion)
+La route qui vérifie la connexion (l'action du formulaire de connexion) :
 
 /check-admin-connexion
 
-La route qui affiche le formulaire d'inscription
+La route qui affiche le formulaire d'inscription :
 
 /creer-un-compte-admin
 
-La route pour le dashboard
+La route pour le dashboard :
 
-/admin/dashboard
+/dashboard
 
-La route pour gerer les admins
+La route pour gerer les admins :
 
 /gerer-admin
 
-La route qui créé un admin
+La route qui créé un admin :
 
-/admin/create-admin
+/create-admin
 
-La route pour modifier un produit
+La route pour modifier un produit :
 
-/admin/update-admin?id=
+/update-admin?id=
 
-La route qui modifié un admin
+La route qui modifié un admin :
 
-/admin/modify-admin
+/modify-admin
 
-la route pour supprimer un admin
+la route pour supprimer un admin :
 
-/admin/delete-admin
+/delete-admin
 
-La route pour gerer les utilisateurs
+La route pour gerer les utilisateurs :
 
 /gerer-utilisateurs
 
-La route pour supprimer un utilisateur
+La route pour supprimer un utilisateur :
 
 /delete-user
 
-La route pour gerer les produits
+La route pour gerer les produits :
 
 /gerer-prestations
 
-La route pour modifier un produit
+La route pour modifier un produit :
 
 /update-prestation:&id=
 
-La route pour modifier un produit
+La route pour modifier un produit :
 
 /check-update-prestation
 
-La route pour créer un nouveau produit
+La route pour créer un nouveau produit :
 
 /check-create-prestation
 
-la route pour supprimer un produit
+La route pour supprimer un produit :
 
 /delete-product
 
-La route pour gerer les catégories des produits
+La route pour gerer les catégories :
 
 /list-categories
 
-La route pour modifier les catégories des produits
+La route pour modifier une catégorie selectionné :
 
 /edit-category:&id=
 
-La route pour soumettre les modifification d'une catégorie
+La route pour soumettre les modifification d'une catégorie :
 
 /update-category
 
-La route pour créer une nouvelle catégorie
+La route pour créer une nouvelle catégorie :
 
 /create-category
 
-La route pour créer une nouvelle catégorie
+La route pour supprimer une catégorie :
 
 /delete-category
 
-La route pour se deconnecter
+La route pour afficher la liste des formulaires :
+
+/gerer-formulaire
+
+La route pour visualiser un formulaire :
+
+/formulaire-detail:&id=
+
+La route pour supprimer un formulaire :
+
+/delete-contact-form
+
+La route pour gerer la page contact :
+
+/gerer-contact
+
+La route pour mettre a jour l'adresse de la page contact :
+
+/update-address
+
+La route pour mettre a jour l'url de géolocalisation de la page contact :
+
+/update-url-geo
+
+La route pour mettre a jour vos numéros de téléphone de la page contact :
+
+/update-phone-numbers
+
+La route pour se deconnecter :
 
 /deconnexion

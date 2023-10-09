@@ -1,0 +1,24 @@
+<main class="">
+    <h2>Demande de Devis</h2>
+    <form method="POST" action="/ProjetFinal_LaetitiaNailArts/check-demander-devis">
+        <!-- Champ caché pour l'ID de l'utilisateur -->
+        <input type="hidden" name="user_id" value="<?php echo $_SESSION['user']; ?>">
+<!--        <input type="hidden" name="user_id" value="--><?php //echo $userId; ?><!--">-->
+        <?php $prestationId = isset($_GET['id']) ? intval($_GET['id']) : null; ?>
+        <!-- Champ caché pour l'ID de la prestation -->
+        <input type="hidden" name="prestation_id" value="<?php echo $prestationId; ?>">
+        <div class="mb-3">
+            <label for="subject" class="form-label">sujet</label>
+            <input type="text" class="form-control" id="subject" name="subject" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Adresse Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="mb-3">
+            <label for="message" class="form-label">Message</label>
+            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="">Envoyer la demande</button>
+    </form>
+</main>

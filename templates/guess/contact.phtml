@@ -1,0 +1,17 @@
+<main class="">
+    <h2 class="">Informations de Contact</h2>
+    <div class="">
+        <?php foreach ($data['contactInfo'] as $contact): ?>
+        <h3>Pour venir a moi : </h3>
+            <p><?= $contact->getAdresse(); ?></p>
+            <p><?= $contact->getCodePostal(); ?> <?= $contact->getVille(); ?></p>
+        <h3>Pour prendre rendez-vous par téléphone : </h3>
+        <p><?= $contact->getNumeroPortable(); ?></p>
+            <div class="">
+                <div class="">
+                    <p><strong>URL Google Maps :</strong></p>
+                    <p><?= htmlspecialchars_decode($contact->getUrlGeo());?></p>
+                </div>
+        <?php endforeach; ?>
+    </div>
+</main>

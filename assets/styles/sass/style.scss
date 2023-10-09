@@ -1,0 +1,189 @@
+@import "reset";
+@import "vars";
+
+h1,h2,h3,h4,a {
+    color: $primary-color;
+}
+
+h1,h2,h3,h4{
+    text-decoration: underline;
+}
+
+h2,h3,h4,a {
+    text-transform: uppercase;
+}
+
+body {
+    background-color: $white-color;
+    color: $dark-color;
+    line-height: 1.5;
+}
+
+header {
+    background-color: $background-color;
+    padding: 20px;
+    background-image: none; /* Assurez-vous que l'image de fond est désactivée par défaut */
+    background-size: cover;
+
+    .header-content{
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: flex-start;
+        align-content: flex-start;
+        width: 100%;
+        overflow: auto;
+        flex-direction: row;
+        h1 {
+            a {
+                font-size: 1.5rem;
+            }
+        }
+    }
+}
+
+
+
+.h1-replacement-image {
+    width: 500px; /* Ajustez la largeur de l'image */
+    height: 270px; /* Ajustez la hauteur de l'image */
+    display: none; /* Caché par défaut en version mobile */
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Styles pour le bouton de connexion en version desktop */
+.desktop-login-button {
+    font-size: 14px; /* Ajustez la taille de police selon vos préférences */
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: none; /* Caché par défaut en version mobile */
+}
+
+/* Affichez la liste de navigation lorsque la classe "active" est appliquée */
+nav ul.active {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 4rem;
+    z-index: 1;
+}
+
+nav ul.active li {
+    margin: 0.5rem;
+    border-radius: 0.75rem;
+    background-color: $background-color;
+    &:hover {
+        background-color: $primary-color;
+    }
+    a {
+        display: block;
+        padding: 0.5rem;
+        text-align: center;
+        &:hover {
+            // Ajoutez des styles de survol si nécessaire
+            color: $dark-color; // Utilisez la couleur souhaitée
+            transition: 0.4s;
+
+        }
+    }
+}
+
+
+.navbar-menu {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    margin-bottom: 5rem;
+    &.active {
+        display: block;
+    }
+}
+
+//.burger-menu {
+//    display: none;
+//    font-size: 24px;
+//    cursor: pointer;
+//    color: #fff;
+//}
+
+.burger-menu {
+    display: none;
+    cursor: pointer;
+
+    i {
+        margin-top: 0.3rem;
+        font-size: 1.5rem; // Ajoutez la taille souhaitée pour l'icône
+        color: $primary-color; // Utilisez la couleur souhaitée
+        transition: 0.6s;
+
+        &:hover {
+            // Ajoutez des styles de survol si nécessaire
+            color: $white-color; // Utilisez la couleur souhaitée
+            transition: 0.4s;
+        }
+    }
+
+    &.active {
+        // Styles actifs si nécessaire
+    }
+}
+
+main {
+    h2{
+        text-align: center;
+        padding: 1rem;
+    }
+    section {
+        width: 90%;
+        margin: 0 auto;
+        margin-bottom: 1.25rem;
+        border: 2px solid $primary-color;
+        border-radius: 5px;
+        padding: 0.75rem;
+
+        div {
+            p {
+                margin: 0.30rem;
+            }
+        }
+    }
+    section.reverse {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+}
+
+button {
+    border: 1px solid $primary-color;
+    border-radius: 0.375rem;
+    padding: 0.375rem 0.75rem;
+}
+
+footer {
+    padding-top: 1rem;
+    background-color: $background-color;
+    text-align: center;
+    div {
+        .footer-section{
+            .social-media {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                li {
+                    padding: 0.25rem;
+                }
+                i {
+
+                    font-size: 1rem;
+                }
+            }
+        }
+    }
+}

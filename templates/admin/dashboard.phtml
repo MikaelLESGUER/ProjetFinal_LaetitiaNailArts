@@ -1,8 +1,25 @@
-<main class="container py-5">
-    <h2>Tableau de bord administrateur</h2>
-    <section>
-        <!-- Contenu de votre tableau de bord -->
-        <p>Bienvenue dans votre tableau de bord administrateur !</p>
-        <!-- Ajoutez ici les éléments de votre tableau de bord -->
-    </section>
+<main class="">
+    <!-- Ajoutez un code PHP pour vérifier les paramètres d'URL et afficher les messages -->
+    <?php
+    if (isset($_SESSION['success_message'])) {
+        echo '<div class="fade-out-message">' . $_SESSION['success_message'] . '</div>';
+        unset($_SESSION['success_message']); // Supprime le message de la session
+    }
+
+    if (isset($_SESSION['error_message'])) {
+        echo '<div class="fade-out-message">' . $_SESSION['error_message'] . '</div>';
+        unset($_SESSION['error_message']); // Supprime le message de la session
+    }
+    ?>
+    <h2>Bienvenue dans votre tableau de bord administrateur !</h2>
+    <div>
+        <h3 class="">notification</h3>
+        <section class="">
+            <div class="">
+                <?php foreach ($data["results"] as $row): ?>
+                    <a class="" href="/ProjetFinal_LaetitiaNailArts/admin/gerer-formulaire"> Vous avez reçu : <?= $row['count_messages']; ?> <?= htmlspecialchars($row['role']); ?></a>
+                <?php endforeach; ?>
+            </div>
+        </section>
+    </div>
 </main>

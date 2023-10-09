@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laetitia Nails Art</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="icon" href="/ProjetFinal_LaetitiaNailArts/assets/images/logo/laetitiafashionails-fav.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/ProjetFinal_LaetitiaNailArts/assets/styles/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/ProjetFinal_LaetitiaNailArts/assets/styles/css/mediaqueries.css" type="text/css">
 </head>
 <body>
     <header>
@@ -25,10 +28,20 @@
     <?php require "templates/{$page}.phtml"; ?>
     
     <footer>
-        <!-- Insérer le contenu du pied de page ici -->
-        <p>&copy; <?= date('Y') ?> Votre entreprise. Tous droits réservés.</p>
+        <!-- Insérer le contenu du footer ici -->
+        <?php
+        if (isset($_SESSION["role"])) {
+            if ($_SESSION["role"] === "admin") {
+                require 'admin/_footer.phtml'; // Accès administrateur
+            } else {
+                require 'user/_footer.phtml'; // Accès utilisateur
+            }
+        } else {
+            require 'guess/_footer.phtml'; // Accès visiteurs
+        }
+        ?>
     </footer>
     
-    <script src="assets/js/main.js"></script>
+    <script src="/ProjetFinal_LaetitiaNailArts/assets/js/main.js" type="module"></script>
 </body>
 </html>

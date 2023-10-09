@@ -1,0 +1,104 @@
+@import "vars";
+
+/* Media query pour le menu hamburger sur les écrans plus petits */
+@media (max-width: 768px) {
+  .h1-replacement-image {
+	display: none; /* Caché en version mobile */
+  }
+
+  nav ul {
+	display: none;
+  }
+
+  .burger-menu {
+	display: block;
+  }
+
+  /* Affichez le bouton de connexion en tant qu'élément <li> dans la navigation mobile */
+  nav ul li.mobile-login-button {
+	display: block;
+  }
+
+  /* Cachez le bouton de connexion en version mobile */
+  .desktop-login-button {
+	display: none;
+  }
+}
+
+/* Media query pour les écrans de bureau (largeur minimale de 769px) */
+@media (min-width: 769px) {
+  header, main, footer {
+	width: 90%;
+	max-width: 1320px;
+	margin: 0 auto;
+  }
+
+  .header-content{
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+	align-content: flex-start;
+	width: 100%;
+	overflow: auto;
+	flex-direction: row;
+  }
+
+  .h1-replacement-image {
+	display: block; /* Caché en version desktop */
+  }
+
+  h1 {
+	display: none; /* Affichez le titre en ligne en version desktop */
+  }
+
+  .desktop-login-button {
+	margin-left: auto; /* Déplacez le bouton "Se connecter" à droite */
+	display: block; /* Affichez le bouton de connexion en ligne en version desktop */
+  }
+
+  nav {
+	width: 100%;
+
+  }
+
+  nav ul {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-evenly;
+	width: 100%;
+	overflow: auto;
+	flex-direction: row;
+	text-align: center;
+  }
+
+  li {
+	width: 150px;
+	list-style: none;
+	background-color: $primary-color;
+	color: $background-color;
+	a {
+	  display: block;
+	  padding: 0.5rem;
+	  text-align: center;
+	  color: $background-color;
+	}
+  }
+
+  /* Cachez le bouton de connexion en tant qu'élément <li> dans la navigation mobile en version desktop */
+  nav ul li.mobile-login-button {
+	display: none;
+  }
+}
+
+main {
+  border: 1rem solid $background-color;
+  section {
+	div {
+	  img {
+		display: flex;
+		margin: 0 auto;
+	  }
+	}
+  }
+}

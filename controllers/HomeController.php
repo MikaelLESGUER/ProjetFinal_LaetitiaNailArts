@@ -2,15 +2,15 @@
 
 class HomeController extends AbstractController
 {
-    public function index()
+    public function index() :void
     {
-        // Vos opérations de traitement ici
-        
-        // Définir le contenu spécifique de la page d'accueil
-        $content = "<h1>Bienvenue sur notre site !</h1><p>Ceci est la page d'accueil.</p>";
-
         // Passer le contenu au rendu du modèle
-        $this->render('index', ['content' => $content, 'title' => 'Accueil']);
+        $this->render('guess/homepage', []);
+    }
+
+    public function conditionGeneral() :void
+    {
+        $this->render('guess/CGU', []);
     }
 }
 

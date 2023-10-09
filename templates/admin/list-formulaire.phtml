@@ -1,0 +1,100 @@
+<main>
+    <?php
+    // Vérifiez s'il y a un message d'erreur
+    if (isset($_SESSION['success_message'])) {
+        echo '<div class="fade-out-message">' . $_SESSION['success_message'] . '</div>';
+        unset($_SESSION['success_message']); // Supprime le message de la session
+    }
+
+    // Vérifiez s'il y a un message de succès
+    if (isset($_SESSION['error_message'])) {
+        echo '<div class="fade-out-message">' . $_SESSION['error_message'] . '</div>';
+        unset($_SESSION['error_message']); // Supprime le message de la session
+    }
+    ?>
+    <!-- formulaires.phtml -->
+<section class="">
+    <table class="">
+        <thead>
+        <tr>
+            <th>Message ID</th>
+            <th>User ID</th>
+            <th>Prestation ID</th>
+            <th>Subject</th>
+            <th>Email</th>
+            <th>Message Text</th>
+            <th>Timestamp</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        </thead class="">
+        <tbody>
+        <?php foreach ($data['contactForms'] as $contactForm): ?>
+            <tr>
+                <td><?= $contactForm->getMessageId(); ?></td>
+                <td><?= $contactForm->getUserName(); ?></td>
+                <td><?= $contactForm->getPrestationName(); ?></td>
+                <td><?= $contactForm->getSubject(); ?></td>
+                <td><?= $contactForm->getEmail(); ?></td>
+                <td><?= $contactForm->getMessageText(); ?></td>
+                <td><?= $contactForm->getTimestamp()->format('Y-m-d H:i:s'); ?></td>
+                <td><?= $contactForm->getRole(); ?></td>
+                <td><?= $contactForm->getStatus(); ?></td>
+                <td>
+                    <a href="/ProjetFinal_LaetitiaNailArts/admin/formulaire-detail&id=<?= $contactForm->getMessageId(); ?>" class="btn-info">Lire</a>
+                    <!-- Bouton "Supprimer" -->
+                    <button class="delete-contactForm-btn" data-contactForm-id="<?= $contactForm->getMessageId(); ?>">
+                        Supprimer
+                    </button>
+                    <!-- Modal de confirmation -->
+                    <form class="delete-contact-form" method="POST" action="/ProjetFinal_LaetitiaNailArts/admin/delete-contact-form">
+                        <input type="hidden" name="contactForm_id" value="<?= $contactForm->getMessageId(); ?>">
+                        <div class="modal fade" id="confirmDeleteModal<?= $contactForm->getMessageId(); ?>" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                            <div class="">
+                                <div class="">
+                                    <header class="modal-header">
+                                        <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmation de suppression</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </header>
+                                    <main class="">
+                                        Êtes-vous sûr de vouloir supprimer ce formulaire ?
+                                    </main>
+                                    <footer class="">
+                                        <button type="button" class="" data-bs-dismiss="modal">Annuler</button>
+                                        <button type="submit" class="">Supprimer</button>
+                                    </footer>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+    <button id="scrollToTopBtn" class="scrollToTopBtn" style="display: none;position: fixed; bottom: 20px; right: 20px">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+</section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Sélectionnez tous les boutons de suppression
+            const deleteButtons = document.querySelectorAll(".delete-contactForm-btn");
+            // Ajoutez un gestionnaire d'événements à chaque bouton
+            deleteButtons.forEach(function (button) {
+                button.addEventListener("click", function () {
+                    // Récupérez l'ID de la catégorie à supprimer à partir de l'attribut data-contactForm-id
+                    const adminId = button.getAttribute("data-contactForm-id");
+                    // Affichez la boîte de dialogue de confirmation
+                    const modal = new bootstrap.Modal(document.getElementById("confirmDeleteModal" + adminId));
+                    modal.show();
+                });
+            });
+        });
+    </script>
+
+
+
+</main>

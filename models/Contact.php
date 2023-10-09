@@ -5,14 +5,16 @@ class Contact {
     private string $adresse;
     private string $codePostal;
     private string $ville;
+    private ?string $urlGeo;
     private ?string $numeroFixe;
     private ?string $numeroPortable;
 
-    public function __construct(?int $id, string $adresse, string $codePostal, string $ville, ?string $numeroFixe, ?string $numeroPortable) {
+    public function __construct(?int $id, string $adresse, string $codePostal, string $ville, ?string $urlGeo, ?string $numeroFixe, ?string $numeroPortable) {
         $this->id = $id;
         $this->adresse = $adresse;
         $this->codePostal = $codePostal;
         $this->ville = $ville;
+        $this->urlGeo = $urlGeo;
         $this->numeroFixe = $numeroFixe;
         $this->numeroPortable = $numeroPortable;
     }
@@ -34,6 +36,11 @@ class Contact {
         return $this->ville;
     }
 
+    public function getUrlGeo(): ?string
+    {
+        return $this->urlGeo;
+    }
+    
     public function getNumeroFixe(): ?string {
         return $this->numeroFixe;
     }
@@ -53,6 +60,11 @@ class Contact {
 
     public function setVille(string $ville): void {
         $this->ville = $ville;
+    }
+
+    public function setUrlGeo(?string $urlGeo): void
+    {
+        $this->urlGeo = $urlGeo;
     }
 
     public function setNumeroFixe(?string $numeroFixe): void {
